@@ -1,10 +1,6 @@
 import Router from "./navigation/Router";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-
-const theme = createTheme({
-  direction: "rtl",
-  // other theme properties
-});
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "./styles/theme";
 
 function App() {
   return (

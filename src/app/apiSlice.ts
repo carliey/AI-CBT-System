@@ -37,5 +37,5 @@ const baseQuerywithAuth: BaseQueryFn<
 
 export const apiSlice = createApi({
   baseQuery: baseQuerywithAuth,
-  endpoints: (builder) => ({}),
+  endpoints: () => ({}),
 });

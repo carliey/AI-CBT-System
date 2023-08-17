@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAppDispatch } from "../redux/store";
+import { useAppDispatch } from "../app/store";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import SignIn from "../pages/auth/SignIn";

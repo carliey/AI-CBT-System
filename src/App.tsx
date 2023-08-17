@@ -1,4 +1,4 @@
-import Router from "./navigation/Router";
+import Router from "./routes/Router";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const theme = createTheme({

@@ -6,14 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { DeleteForever, Edit, Search, Upload } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  InputBase,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { IconButton, InputBase, Stack, Typography } from "@mui/material";
 import FileUploadModal from "../../components/FileUploadModal";
 import { useState } from "react";
 
@@ -61,7 +54,9 @@ export default function Library() {
             <Search />
           </IconButton>
         </Paper>
-        <Upload onClick={() => setOpen(true)} />
+        <IconButton onClick={() => setOpen(true)}>
+          <Upload />
+        </IconButton>
       </Stack>
 
       <TableContainer component={Paper} sx={{ my: 2 }}>

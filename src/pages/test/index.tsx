@@ -6,13 +6,12 @@ import { Button, Stack, Typography } from "@mui/material";
 import Pending from "./Pending";
 import Elapsed from "./Elapsed";
 import { useNavigate } from "react-router-dom";
+import TabSwitcher from "../../components/TabSwitcher";
 
 const Tests = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = React.useState(0);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
+  const tabs = ["Pending", "Elapsed"];
 
   return (
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -20,22 +19,11 @@ const Tests = () => {
         <Typography variant="h6">Tests</Typography>
         <Button onClick={() => navigate("create")}>Create New</Button>
       </Stack>
-      <Tabs
-        value={activeTab}
-        onChange={handleChange}
-        centered
-        sx={{
-          "& .Mui-selected": {
-            color: "black !important",
-          },
-          "& .MuiTabs-indicator": {
-            backgroundColor: "black",
-          },
-        }}
-      >
-        <Tab label="Elapsed" />
-        <Tab label="Pending" />
-      </Tabs>
+      <TabSwitcher
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        tabs={tabs}
+      />
       {activeTab == 0 && <Elapsed />}
       {activeTab == 1 && <Pending />}
     </Box>

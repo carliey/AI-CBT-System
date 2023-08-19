@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Card,
   FormControl,
   Grid,
   Input,
@@ -133,10 +134,8 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
       sx={{
         color: "grey.dark",
         "& .card": {
-          backgroundColor: "grey.light",
           width: "100%",
           mb: 2,
-          borderRadius: "4px",
           padding: "16px",
           display: "flex",
           flexDirection: "column",
@@ -145,27 +144,12 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
         "& .card-heading": {
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
           "& .title": {
             fontWeight: 600,
-            fontSize: "24px",
+            fontSize: "16px",
             lineHeight: "36px",
           },
-        },
-
-        "& .card-body": {
-          display: "flex",
-          flexDirection: "column",
-          gap: "12px",
-        },
-        "& .input-group": {
-          display: "grid",
-          gridTemplateColumns: "1fr 4fr",
-          alignItems: "center",
-        },
-
-        "& .label ": {
-          fontSize: "16px",
-          fontWeight: 600,
         },
 
         "& .hide": {
@@ -190,7 +174,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
     >
       <Box className="main-content">
         {questions?.map((question: Question, index: number) => (
-          <Box className="card" key={index}>
+          <Card elevation={2} className="card" key={index}>
             <Box className="card-heading">
               <Typography className="title">Question {index + 1}.</Typography>
               <ButtonGroup
@@ -251,7 +235,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
                 </Button>
               </ButtonGroup>
             </Box>
-            <div className="form-group">
+            <Box>
               <textarea
                 style={{ width: "100%" }}
                 name="question"
@@ -261,44 +245,46 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
                 }
                 value={question?.question}
               />
-
-              <div style={{ display: "flex", gap: 4, margin: "5px 0" }}>
-                <h6>Options</h6>
-                <span>(Select answer)</span>
-              </div>
-              <Grid container spacing={3}>
+              <Grid container columnSpacing={10} rowSpacing={2}>
                 {question.options.map((option: Option, i: number) => (
-                  <Grid item xs={12} md={6} key={i}>
-                    <Input
-                      placeholder="Option"
-                      name="option"
-                      value={option.option}
-                      onChange={(e) =>
-                        handleQuestionChange(e, {
-                          question,
-                          questionIndex: index,
-                          optionIndex: i,
-                        })
-                      }
-                    />
-                    <Radio
-                      name="radio"
-                      checked={option.is_correct}
-                      onChange={(e) =>
-                        handleQuestionChange(e, {
-                          question,
-                          questionIndex: index,
-                          optionIndex: i,
-                        })
-                      }
-                    />
+                  <Grid item xs={12} sm={6} key={i}>
+                    <Stack direction="row" alignItems="start">
+                      <Input
+                        fullWidth
+                        placeholder="Option"
+                        name="option"
+                        value={option.option}
+                        onChange={(e) =>
+                          handleQuestionChange(e, {
+                            question,
+                            questionIndex: index,
+                            optionIndex: i,
+                          })
+                        }
+                      />
+                      <Radio
+                        name="radio"
+                        checked={option.is_correct}
+                        onChange={(e) =>
+                          handleQuestionChange(e, {
+                            question,
+                            questionIndex: index,
+                            optionIndex: i,
+                          })
+                        }
+                      />
+                    </Stack>
                   </Grid>
                 ))}
               </Grid>
-            </div>
-          </Box>
+            </Box>
+          </Card>
         ))}
-        <Button startIcon={<ControlPoint />} onClick={handleAddQuestion}>
+        <Button
+          variant="outlined"
+          startIcon={<ControlPoint />}
+          onClick={handleAddQuestion}
+        >
           Add Question
         </Button>
       </Box>

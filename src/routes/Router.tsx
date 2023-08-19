@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "../app/store";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -8,8 +8,9 @@ import LandingLayout from "../layout/Landing";
 import Dashboard from "../pages/dashboard";
 import DashboardLayout from "../layout/DashboardLayout";
 import Library from "../pages/library";
-import Tests from "../pages/tests";
 import Settings from "../pages/settings";
+import Tests from "../pages/test";
+import CreateTest from "../pages/test/CreateTest";
 
 type ProtectedRoute = {
   user: any;
@@ -65,7 +66,10 @@ const Router = () => {
       >
         <Route path="/" element={<Dashboard />} />
         <Route path="/library" element={<Library />} />
-        <Route path="/tests" element={<Tests />} />
+        <Route path="/tests">
+          <Route index element={<Tests />} />
+          <Route path="create" element={<CreateTest />} />
+        </Route>
         <Route path="/settings" element={<Settings />} />
       </Route>
 

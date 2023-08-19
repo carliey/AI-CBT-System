@@ -12,6 +12,7 @@ import TestEditor from "../../components/TestEditor";
 import { Questions } from "../../types/questions";
 import { useState } from "react";
 import TabSwitcher from "../../components/TabSwitcher";
+import ParticipantsTable from "./ParticipantsTable";
 
 const CreateTest = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -65,8 +66,7 @@ const CreateTest = () => {
             <TestEditor questions={questions} setQuestions={setQuestions} />
           </>
         )}
-        {activeTab === 1 && <h1>description</h1>}
-        <Button onClick={() => console.log(questions)}>submit</Button>
+        {activeTab === 1 && <ParticipantsTable />}
       </Container>
     </Box>
   );

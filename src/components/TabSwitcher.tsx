@@ -26,8 +26,8 @@ const TabSwitcher = ({ tabs, activeTab, setActiveTab }: Props) => {
         },
       }}
     >
-      {tabs.map((tab: string) => (
-        <Tab label={tab} />
+      {tabs.map((tab: string, index: number) => (
+        <Tab label={tab} key={index} />
       ))}
     </Tabs>
   );

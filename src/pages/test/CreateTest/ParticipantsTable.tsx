@@ -6,7 +6,6 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,12 +14,10 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { Add } from "@mui/icons-material";
+import { Participant } from "../../../types/participants";
 
 interface Data {
   name: string;
@@ -209,11 +206,14 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-export default function ParticipantsTable() {
+interface ParticipantsTableProps {
+  rows: Participant[] | [];
+}
+
+export default function ParticipantsTable({ rows }: ParticipantsTableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const rows = [{ name: "musa jamil", email: "mj@mail.com" }];
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -255,6 +255,11 @@ export default function ParticipantsTable() {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
+  const visibleRows = React.useMemo(
+    () => stableSort(rows, getComparator(order, orderBy)).slice(0, rows.length),
+    [order, orderBy, rows]
+  );
+
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -274,7 +279,7 @@ export default function ParticipantsTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {rows.map((row, index) => {
+              {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
 

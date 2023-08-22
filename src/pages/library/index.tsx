@@ -9,21 +9,9 @@ import { DeleteForever, Edit, Search, Upload } from "@mui/icons-material";
 import { IconButton, InputBase, Stack, Typography } from "@mui/material";
 import FileUploadModal from "../../components/FileUploadModal";
 import { useState } from "react";
-
-const rows: any[] = [
-  {
-    title: "Public service rules",
-    description: "2008 edition",
-    date_uploaded: "20/05/23",
-    number_used: 24,
-  },
-  {
-    title: "Current affairs",
-    description: "2020",
-    date_uploaded: "20/05/23",
-    number_used: 37,
-  },
-];
+import { Document } from "../../types/documents";
+import { documents } from "../../data/documents";
+import { useMemo } from "react";
 
 export default function Library() {
   const [open, setOpen] = useState(false);
@@ -31,6 +19,9 @@ export default function Library() {
     setOpen(false);
   };
 
+  const rows: Document[] = useMemo(() => {
+    return documents;
+  }, []);
   return (
     <>
       <FileUploadModal onClose={handleClose} open={open} />

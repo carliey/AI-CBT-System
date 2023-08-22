@@ -10,7 +10,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import Library from "../pages/library";
 import Settings from "../pages/settings";
 import Tests from "../pages/test";
-import CreateTest from "../pages/test/CreateTest";
+import CreateTest from "../pages/test/CreateTest/CreateTest";
 
 type ProtectedRoute = {
   user: any;

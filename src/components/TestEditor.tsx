@@ -12,8 +12,15 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ControlPoint, DeleteOutline, North, South } from "@mui/icons-material";
+import {
+  ControlPoint,
+  DeleteOutline,
+  North,
+  SmartToy,
+  South,
+} from "@mui/icons-material";
 import { Option, Question, Questions } from "../types/questions";
+import GenerateQuestionsModal from "../pages/test/CreateTest/GenerateQuestionsModal";
 
 interface Props {
   questions: Questions;
@@ -26,10 +33,10 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
   const openAddBlock = Boolean(anchorEl);
   const [dragActive, setDragActive] = useState(null);
   const [toast, setToast] = useState(null);
-  const [openImagePicker, setOpenImagePicker] = useState(null);
   const [isDeletingBlock, setIsDeletingBlock] = useState(null);
   const [confirmation, setConfirmation] = useState<any>(null);
   const [targetBlock, setTargetBlock] = useState(null); // to target which block to add loading to
+  const [openGenerator, setOpenGenerator] = useState(false);
 
   const handleAddQuestion = () => {
     setQuestions((prev: Questions) => [
@@ -135,7 +142,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
         color: "grey.dark",
         "& .card": {
           width: "100%",
-          mb: 2,
+          my: 2,
           padding: "16px",
           display: "flex",
           flexDirection: "column",
@@ -280,13 +287,26 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
             </Box>
           </Card>
         ))}
-        <Button
-          variant="outlined"
-          startIcon={<ControlPoint />}
-          onClick={handleAddQuestion}
-        >
-          Add Question
-        </Button>
+        <Stack direction="row" width="100%" justifyContent={"space-between"}>
+          <Button
+            variant="outlined"
+            startIcon={<ControlPoint />}
+            onClick={handleAddQuestion}
+          >
+            Add Question
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<SmartToy />}
+            onClick={() => setOpenGenerator(true)}
+          >
+            Generate
+          </Button>
+          <GenerateQuestionsModal
+            open={openGenerator}
+            onClose={() => setOpenGenerator(false)}
+          />
+        </Stack>
       </Box>
     </Box>
   );

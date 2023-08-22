@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import { Box, Button, DialogContent, Typography } from "@mui/material";
 import { useRef, useState } from "react";
 
-export interface FileUploadModalProps {
+interface FileUploadModalProps {
   open: boolean;
   onClose: () => void;
 }

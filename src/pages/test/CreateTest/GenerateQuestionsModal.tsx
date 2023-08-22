@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Dialog,
   DialogContent,
@@ -55,7 +54,6 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
           </Button>
           {selectedDocument && (
             <Typography variant="caption">
-              {" "}
               Generate from: <strong>{selectedDocument.title}</strong>
             </Typography>
           )}

@@ -1,8 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { Button, Stack, Typography } from "@mui/material";
-import Pending from "./Published";
-import Elapsed from "./Completed";
 import { useNavigate } from "react-router-dom";
 import TabSwitcher from "../../components/TabSwitcher";
 import Completed from "./Completed";

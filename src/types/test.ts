@@ -22,6 +22,7 @@ export interface TestResult {
 }
 
 export interface Test {
+  id?: number;
   title: string;
   description: string;
   instructions: string;

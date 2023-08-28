@@ -8,17 +8,20 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-
-import { useMemo, useState } from "react";
+import { ChangeEvent, useMemo, useState } from "react";
 import ParticipantsTable from "./ParticipantsTable";
 import { Participant } from "../../../types/participants";
 import UploadParticipantsModal from "./UploadParticipantsModal";
+import { participants } from "../../../data/participants";
+import { FormData } from "./CreateTest";
 
 type Props = {
   rows?: [];
+  formData: FormData;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Settings = (props: Props) => {
+const Settings = ({ formData, handleChange }: Props) => {
   const [checked, setChecked] = useState(["wifi"]);
   const [openUploadParticipants, setOpenUploadParticipants] = useState(false);
   const handleToggle = (value: string) => () => {
@@ -34,23 +37,30 @@ const Settings = (props: Props) => {
     setChecked(newChecked);
   };
 
-  const participants = useMemo<Participant[]>(() => {
-    return [
-      { id: 1, name: "Muhammed Ladan", email: "mdcarliey@gmail.com" },
-      { id: 2, name: "Faiza yusuf", email: "faizayusuf330@gmail.com" },
-    ];
-  }, []);
-
   return (
     <div>
       <Card elevation={2} sx={{ my: 2 }}>
         <CardContent>
           <Grid container spacing={1} columnSpacing={3}>
             <Grid item xs={12}>
-              <TextField fullWidth variant="standard" label="Test Title" />
+              <TextField
+                fullWidth
+                variant="standard"
+                label="Test Title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
             </Grid>
             <Grid item xs={12}>
-              <TextField fullWidth label="Description" variant="standard" />
+              <TextField
+                fullWidth
+                label="Description"
+                variant="standard"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -59,6 +69,9 @@ const Settings = (props: Props) => {
                 fullWidth
                 label="Instructions"
                 variant="standard"
+                name="instructions"
+                value={formData.instructions}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={6}>
@@ -69,6 +82,10 @@ const Settings = (props: Props) => {
                 aria-valuemax={1000}
                 label="Duration(minutes)"
                 variant="standard"
+                name="duration"
+                value={formData.duration}
+                onChange={handleChange}
+                placeholder="Duration"
               />
             </Grid>
             <Grid item xs={6}>
@@ -77,6 +94,10 @@ const Settings = (props: Props) => {
                 type="datetime-local"
                 label="Date and Time"
                 variant="standard"
+                name="datetime"
+                value={formData.datetime}
+                onChange={handleChange}
+                placeholder="Datetime"
               />
             </Grid>
           </Grid>

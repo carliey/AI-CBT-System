@@ -1,6 +1,6 @@
 import { Participant } from "../types/participants";
 
-const participants: Participant[] = [
+export const participants: Participant[] = [
   {
     id: 1,
     name: "John Doe",

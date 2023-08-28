@@ -19,7 +19,7 @@ import {
   SmartToy,
   South,
 } from "@mui/icons-material";
-import { Option, Question, Questions } from "../types/questions";
+import { Option, Question, Questions } from "../types/test";
 import GenerateQuestionsModal from "../pages/test/CreateTest/GenerateQuestionsModal";
 
 interface Props {

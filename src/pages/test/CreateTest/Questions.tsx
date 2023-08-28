@@ -1,5 +1,5 @@
 import React from "react";
-import { Question } from "../../../types/questions";
+import { Question } from "../../../types/test";
 import TestEditor from "../../../components/TestEditor";
 
 type Props = {

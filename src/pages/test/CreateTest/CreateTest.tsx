@@ -1,16 +1,42 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import TestEditor from "../../../components/TestEditor";
-import { Question } from "../../../types/questions";
-import { useMemo, useState } from "react";
+import { Question } from "../../../types/test";
+import { ChangeEvent, useMemo, useState } from "react";
 import TabSwitcher from "../../../components/TabSwitcher";
 import ParticipantsTable from "./ParticipantsTable";
 import { Participant } from "../../../types/participants";
 import Settings from "./Settings";
 import Questions from "./Questions";
 
+export interface FormData {
+  title: string;
+  description: string;
+  instructions: string;
+  duration: number;
+  datetime: string;
+}
+
+const initialFormData: FormData = {
+  title: "",
+  description: "",
+  instructions: "",
+  duration: 0,
+  datetime: "",
+};
+
 const CreateTest = () => {
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Questions", "Settings"];
+
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const [questions, setQuestions] = useState<Question[]>([
     {
@@ -24,6 +50,14 @@ const CreateTest = () => {
     },
   ]);
 
+  const handleSaveTest = () => {
+    console.log("save test");
+    console.log({
+      ...formData,
+      questions,
+    });
+  };
+
   return (
     <Box>
       <Stack
@@ -32,7 +66,9 @@ const CreateTest = () => {
         sx={{ position: "sticky", top: 10 }}
       >
         <Typography variant="h6">Create Test</Typography>
-        <Button variant="contained">Save</Button>
+        <Button variant="contained" onClick={handleSaveTest}>
+          Save
+        </Button>
       </Stack>
       <Container maxWidth="md">
         <TabSwitcher
@@ -41,7 +77,9 @@ const CreateTest = () => {
           tabs={tabs}
         />
 
-        {activeTab === 1 && <Settings />}
+        {activeTab === 1 && (
+          <Settings formData={formData} handleChange={handleChange} />
+        )}
         {activeTab === 0 && (
           <Questions questions={questions} setQuestions={setQuestions} />
         )}

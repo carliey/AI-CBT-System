@@ -151,10 +151,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  setOpenUploadParticipants: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, setOpenUploadParticipants } = props;
 
   return (
     <Toolbar
@@ -197,7 +198,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         </Tooltip>
       ) : (
         <Tooltip title="Add Participant">
-          <IconButton>
+          <IconButton onClick={() => setOpenUploadParticipants(true)}>
             <Add />
           </IconButton>
         </Tooltip>
@@ -208,9 +209,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
 interface ParticipantsTableProps {
   rows: Participant[] | [];
+  setOpenUploadParticipants: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ParticipantsTable({ rows }: ParticipantsTableProps) {
+export default function ParticipantsTable({
+  rows,
+  setOpenUploadParticipants,
+}: ParticipantsTableProps) {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -263,7 +268,10 @@ export default function ParticipantsTable({ rows }: ParticipantsTableProps) {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          setOpenUploadParticipants={setOpenUploadParticipants}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}

@@ -12,6 +12,7 @@ import {
 import { useMemo, useState } from "react";
 import ParticipantsTable from "./ParticipantsTable";
 import { Participant } from "../../../types/participants";
+import UploadParticipantsModal from "./UploadParticipantsModal";
 
 type Props = {
   rows?: [];
@@ -19,6 +20,7 @@ type Props = {
 
 const Settings = (props: Props) => {
   const [checked, setChecked] = useState(["wifi"]);
+  const [openUploadParticipants, setOpenUploadParticipants] = useState(false);
   const handleToggle = (value: string) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -95,7 +97,14 @@ const Settings = (props: Props) => {
           </List>
         </CardContent>
       </Card>
-      <ParticipantsTable rows={participants} />
+      <ParticipantsTable
+        rows={participants}
+        setOpenUploadParticipants={setOpenUploadParticipants}
+      />
+      <UploadParticipantsModal
+        open={openUploadParticipants}
+        onClose={() => setOpenUploadParticipants(false)}
+      />
     </div>
   );
 };

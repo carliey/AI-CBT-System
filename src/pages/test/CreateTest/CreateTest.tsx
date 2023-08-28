@@ -1,12 +1,10 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import TestEditor from "../../../components/TestEditor";
 import { Question } from "../../../types/test";
 import { ChangeEvent, useMemo, useState } from "react";
 import TabSwitcher from "../../../components/TabSwitcher";
-import ParticipantsTable from "./ParticipantsTable";
-import { Participant } from "../../../types/participants";
 import Settings from "./Settings";
 import Questions from "./Questions";
+import { participants } from "../../../data/participants";
 
 export interface FormData {
   title: string;
@@ -50,12 +48,17 @@ const CreateTest = () => {
     },
   ]);
 
+  const participantsList = useMemo(() => {
+    return participants || [];
+  }, []);
+
   const handleSaveTest = () => {
-    console.log("save test");
-    console.log({
+    const testBody = {
       ...formData,
       questions,
-    });
+      participants: participantsList,
+    };
+    console.log(testBody);
   };
 
   return (
@@ -78,7 +81,11 @@ const CreateTest = () => {
         />
 
         {activeTab === 1 && (
-          <Settings formData={formData} handleChange={handleChange} />
+          <Settings
+            formData={formData}
+            handleChange={handleChange}
+            participants={participantsList}
+          />
         )}
         {activeTab === 0 && (
           <Questions questions={questions} setQuestions={setQuestions} />

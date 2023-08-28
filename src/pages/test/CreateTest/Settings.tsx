@@ -8,20 +8,19 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import ParticipantsTable from "./ParticipantsTable";
 import { Participant } from "../../../types/participants";
 import UploadParticipantsModal from "./UploadParticipantsModal";
-import { participants } from "../../../data/participants";
 import { FormData } from "./CreateTest";
 
 type Props = {
-  rows?: [];
+  participants: Participant[];
   formData: FormData;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Settings = ({ formData, handleChange }: Props) => {
+const Settings = ({ formData, participants, handleChange }: Props) => {
   const [checked, setChecked] = useState(["wifi"]);
   const [openUploadParticipants, setOpenUploadParticipants] = useState(false);
   const handleToggle = (value: string) => () => {

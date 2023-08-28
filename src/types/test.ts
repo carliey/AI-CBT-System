@@ -1,3 +1,5 @@
+import { Participant } from "./participants";
+
 export type Option = {
   id?: number;
   option: string;
@@ -12,6 +14,13 @@ export type Question = {
 
 export type Questions = Question[];
 
+export interface TestResult {
+  email: string;
+  completionDateTime: string;
+  score: number;
+  attempted: number;
+}
+
 export interface Test {
   title: string;
   description: string;
@@ -21,4 +30,5 @@ export interface Test {
   questions: Question[];
   testStatus: "pending" | "completed";
   results?: TestResult[];
+  participants: Participant[];
 }

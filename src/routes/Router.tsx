@@ -11,6 +11,7 @@ import Library from "../pages/library";
 import Settings from "../pages/settings";
 import Tests from "../pages/test";
 import CreateTest from "../pages/test/CreateTest/CreateTest";
+import ViewCompletedTest from "../pages/test/view-test/ViewTest";
 
 type ProtectedRoute = {
   user: any;
@@ -69,6 +70,7 @@ const Router = () => {
         <Route path="/tests">
           <Route index element={<Tests />} />
           <Route path="create" element={<CreateTest />} />
+          <Route path="completed" element={<ViewCompletedTest />} />
         </Route>
         <Route path="/settings" element={<Settings />} />
       </Route>

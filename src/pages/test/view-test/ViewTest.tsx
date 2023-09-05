@@ -1,51 +1,147 @@
 import {
   Box,
   Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
+  Grid,
+  IconButton,
+  Input,
   Paper,
+  Radio,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Option, Question, Test } from "../../../types/test";
+import TabSwitcher from "../../../components/TabSwitcher";
+import { ArrowBack, Check } from "@mui/icons-material";
 
 const ViewCompletedTest = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const test = location.state as Test;
+
+  const [activeTab, setActiveTab] = useState(0);
+  const tabs = ["Results", "Questions"];
+  console.log(test);
+
   return (
     <div>
-      <h1>view completed test</h1>
-      {/* {completedTests.map((test: Test, index) => (
-        <Paper key={index} elevation={3} sx={{ my: 3, p: 2 }}>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Test {index + 1}: {test.title}
+      <Paper
+        elevation={3}
+        sx={{
+          my: 3,
+          p: 2,
+          "& .label": {
+            fontWeight: "bold",
+          },
+        }}
+      >
+        <Stack direction="row" alignItems={"center"}>
+          <IconButton onClick={() => navigate(-1)}>
+            <ArrowBack />
+          </IconButton>
+
+          <Typography variant="h5" component="h2">
+            {test.title}
           </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Participants: {test.results?.length}
-          </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            Date: {new Date(test.datetime).toLocaleString()}
-          </Typography>
-          <List>
-            {test.results?.map((result, resultIndex) => (
-              <React.Fragment key={resultIndex}>
-                <ListItem>
-                  <ListItemText
-                    primary={`${result.email} - Score: ${result.score}`}
-                  />
-                </ListItem>
-                <Divider component="li" />
-              </React.Fragment>
+        </Stack>
+        <Grid container mx={6} rowSpacing={1}>
+          <Grid item xs={12}>
+            <Typography>{test.description}</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              <span className="label"> Total Participants:</span>{" "}
+              {test.participants?.length}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              <span className="label">Total Submissions:</span>{" "}
+              {test.results?.length}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              <span className="label"> Date:</span>{" "}
+              {new Date(test.datetime).toLocaleString()}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              <span className="label"> Duration: </span>
+              {test.duration}
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <TabSwitcher
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabs={tabs}
+        />
+        {activeTab == 0 && (
+          <React.Fragment>
+            <Table>
+              <TableHead>
+                <TableCell align="left">Email</TableCell>
+                <TableCell>Score</TableCell>
+              </TableHead>
+              <TableBody>
+                {test.results?.map((result, resultIndex) => (
+                  <TableRow key={resultIndex}>
+                    <TableCell align="left">{result.email}</TableCell>
+                    <TableCell align="left">{result.score}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
+              <Button variant="outlined">PDF</Button>
+              <Button variant="outlined">XLS</Button>
+            </Stack>
+          </React.Fragment>
+        )}
+        {activeTab == 1 && (
+          <Box>
+            {test.questions.map((question: Question, index: number) => (
+              <Box sx={{ border: "1px solid grey", p: 2, my: 2 }}>
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Question {index + 1}.
+                </Typography>
+                <Grid container columnSpacing={10} rowSpacing={2}>
+                  <Grid item xs={12}>
+                    <Typography>{question.question}</Typography>
+                  </Grid>
+                  {question.options.map((option: Option, i: number) => (
+                    <Grid item xs={12} sm={6} key={i}>
+                      <Stack direction="row" alignItems="center">
+                        <Typography
+                          sx={{
+                            borderBottom: "1px solid grey",
+                            minWidth: "100px",
+                          }}
+                        >
+                          {option.option}
+                        </Typography>
+                        {option.is_correct && (
+                          // <Radio name="radio" checked={option.is_correct} />
+                          <Check sx={{ color: "green" }} />
+                        )}
+                      </Stack>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
             ))}
-          </List>
-          <Button
-            variant="outlined"
-            color="secondary"
-            // onClick={() => handleUnpublish(index)}
-          >
-            Unpublish
-          </Button>
-        </Paper>
-      ))} */}
+          </Box>
+        )}
+      </Paper>
     </div>
   );
 };

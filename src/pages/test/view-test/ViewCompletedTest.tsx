@@ -19,6 +19,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Option, Question, Test } from "../../../types/test";
 import TabSwitcher from "../../../components/TabSwitcher";
 import { ArrowBack, Check } from "@mui/icons-material";
+import { optionTitle } from "../../../data/optionTitle";
 
 const ViewCompletedTest = () => {
   const navigate = useNavigate();
@@ -27,7 +28,6 @@ const ViewCompletedTest = () => {
 
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Results", "Questions"];
-  console.log(test);
 
   return (
     <div>
@@ -110,7 +110,7 @@ const ViewCompletedTest = () => {
         {activeTab == 1 && (
           <Box>
             {test.questions.map((question: Question, index: number) => (
-              <Box sx={{ border: "1px solid grey", p: 2, my: 2 }}>
+              <Paper elevation={1} sx={{ p: 2, my: 2 }}>
                 <Typography sx={{ fontWeight: "bold" }}>
                   Question {index + 1}.
                 </Typography>
@@ -121,6 +121,7 @@ const ViewCompletedTest = () => {
                   {question.options.map((option: Option, i: number) => (
                     <Grid item xs={12} sm={6} key={i}>
                       <Stack direction="row" alignItems="center">
+                        <Typography>{optionTitle[i]}. &nbsp; </Typography>
                         <Typography
                           sx={{
                             borderBottom: "1px solid grey",
@@ -137,7 +138,7 @@ const ViewCompletedTest = () => {
                     </Grid>
                   ))}
                 </Grid>
-              </Box>
+              </Paper>
             ))}
           </Box>
         )}

@@ -11,7 +11,7 @@ import Library from "../pages/library";
 import Settings from "../pages/settings";
 import Tests from "../pages/test";
 import CreateTest from "../pages/test/CreateTest/CreateTest";
-import ViewCompletedTest from "../pages/test/view-test/ViewTest";
+import ViewCompletedTest from "../pages/test/view-test/ViewCompletedTest";
 
 type ProtectedRoute = {
   user: any;

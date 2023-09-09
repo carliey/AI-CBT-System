@@ -19,13 +19,13 @@ import TabSwitcher from "../../../components/TabSwitcher";
 import { ArrowBack, Check } from "@mui/icons-material";
 import { optionTitle } from "../../../data/optionTitle";
 
-const ViewCompletedTest = () => {
+const ViewPublishedTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const test = location.state as Test;
 
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Results", "Questions"];
+  const tabs = ["Participants", "Questions"];
 
   return (
     <div>
@@ -88,13 +88,11 @@ const ViewCompletedTest = () => {
             <Table>
               <TableHead>
                 <TableCell align="left">Email</TableCell>
-                <TableCell>Score</TableCell>
               </TableHead>
               <TableBody>
-                {test.results?.map((result, resultIndex) => (
-                  <TableRow key={resultIndex}>
-                    <TableCell align="left">{result.email}</TableCell>
-                    <TableCell align="left">{result.score}</TableCell>
+                {test.participants?.map((participant, index) => (
+                  <TableRow key={index}>
+                    <TableCell align="left">{participant.email}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -145,4 +143,4 @@ const ViewCompletedTest = () => {
   );
 };
 
-export default ViewCompletedTest;
+export default ViewPublishedTest;

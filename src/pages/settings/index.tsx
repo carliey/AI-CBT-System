@@ -1,8 +1,13 @@
 import Box from "@mui/material/Box";
 import {  Paper, Stack, Typography } from "@mui/material";
+import EditNameModal from "./EditNameModal";
+import { useState } from "react";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 const Settings = () => {
-
+ 
+  const [openEditName, setOpenEditName] = useState(false)
+  const [openChangePassword, setOpenChangePassword] = useState(false)
 
   return (
     <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
@@ -22,15 +27,17 @@ const Settings = () => {
           }
         }
       }}>
-        <Box className="box">
+        <Box className="box" onClick={()=>setOpenEditName(true)}>
           <Typography className="text">Account name</Typography>
+          <EditNameModal open={openEditName} handleClose={()=>setOpenEditName(false)} />
         </Box>
-        <Box className="box">
+        <Box className="box" onClick={()=>setOpenChangePassword(true)}>
           <Typography className="text">Password</Typography>
+          <ChangePasswordModal open={openChangePassword} handleClose={()=>setOpenChangePassword(false)} />
         </Box>
-        <Box className="box">
+        {/* <Box className="box">
           <Typography className="text">Appearance</Typography>
-        </Box>
+        </Box> */}
       </Paper>
     </Box>
   );

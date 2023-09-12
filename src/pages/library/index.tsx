@@ -26,7 +26,7 @@ export default function Library() {
     <>
       <FileUploadModal onClose={handleClose} open={open} />
       <Stack justifyContent="space-between" direction="row" alignItems="center">
-        <Typography>Documents</Typography>
+        <Typography variant="h6">Documents</Typography>
         <Paper
           sx={{
             p: "0px 4px",

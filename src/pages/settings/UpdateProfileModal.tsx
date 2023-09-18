@@ -1,0 +1,101 @@
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField,
+} from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+
+const validationSchema = yup.object({
+  name: yup.string().required("Password is required"),
+  address: yup.string().required("New Password Is Required"),
+  about: yup.string().required("About is required"),
+});
+
+const UpdateProfileModal = ({ open, onClose }: Props) => {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      address: "",
+      about: "",
+    },
+    enableReinitialize: true,
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  return (
+    <Dialog onClose={onClose} open={open} maxWidth="lg">
+      <DialogTitle>Update Profile</DialogTitle>
+      <DialogContent>
+        <Box component="form">
+          <Grid container rowGap={2}>
+            <Grid xs={12}>
+              <TextField
+                fullWidth
+                id="name"
+                name="name"
+                label="Name"
+                variant="outlined"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+              />
+            </Grid>
+            <Grid xs={12}>
+              <TextField
+                fullWidth
+                id="address"
+                name="address"
+                label="Address"
+                variant="outlined"
+                value={formik.values.address}
+                onChange={formik.handleChange}
+                error={formik.touched.address && Boolean(formik.errors.address)}
+                helperText={formik.touched.address && formik.errors.address}
+              />
+            </Grid>
+            <Grid xs={12}>
+              <TextField
+                fullWidth
+                id="about"
+                name="about"
+                label="About"
+                variant="outlined"
+                value={formik.values.about}
+                onChange={formik.handleChange}
+                error={formik.touched.about && Boolean(formik.errors.about)}
+                helperText={formik.touched.about && formik.errors.about}
+              />
+            </Grid>
+
+            <Grid item>
+              <Button
+                variant="contained"
+                color="success"
+                fullWidth
+                type="submit"
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default UpdateProfileModal;

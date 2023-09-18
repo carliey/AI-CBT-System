@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../app/store";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
 import LandingLayout from "../layout/Landing";
@@ -34,8 +33,9 @@ const ProtectedRoute = ({ user, children }: ProtectedRoute) => {
 const Router = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  //const user = useSelector(selectCurrentUser);
+  // const user = useSelector(selectCurrentUser);
   const user = { name: "muhammed" };
+  // const user = false;
 
   useEffect(() => {
     //log the user back in with local storage data

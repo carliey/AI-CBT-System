@@ -1,4 +1,4 @@
-import { Button, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { Test } from "../../types/test";
 import { useNavigate } from "react-router-dom";
 import { pendingTests } from "../../data/tests";
@@ -13,7 +13,7 @@ const Unpublished = () => {
   return (
     <div>
       {pendingTests.map((test: Test, index) => (
-        <Paper key={index} elevation={3} sx={{ my: 3, p: 2 }}>
+        <Box key={index} sx={{ my: 3, p: 2, border: "2px solid #F5F5F5" }}>
           <Stack
             direction="row"
             spacing={1}
@@ -39,7 +39,7 @@ const Unpublished = () => {
               Publish
             </Button>
           </Stack>
-        </Paper>
+        </Box>
       ))}
     </div>
   );

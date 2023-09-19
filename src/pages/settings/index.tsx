@@ -17,13 +17,16 @@ const Settings = () => {
       <Box
         sx={{
           mt: 4,
+          "& :hover": {
+            "& .text": {
+              fontWeight: 600,
+              color: "black",
+            },
+          },
           "& .box": {
             borderBlock: "1px solid #F5F5F5",
             cursor: "pointer",
             p: 4,
-            "& .text": {
-              color: "black",
-            },
           },
         }}
       >

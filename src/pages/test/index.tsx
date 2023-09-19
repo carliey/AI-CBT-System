@@ -1,6 +1,5 @@
 import React from "react";
-import Box from "@mui/material/Box";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Paper, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TabSwitcher from "../../components/TabSwitcher";
 import Completed from "./Completed";
@@ -13,10 +12,12 @@ const Tests = () => {
   const tabs = ["Completed", "Published", "Unpublished"];
 
   return (
-    <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+    <Paper sx={{ p: 2 }}>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h6">Tests</Typography>
-        <Button onClick={() => navigate("create")}>Create New</Button>
+        <Button variant="outlined" onClick={() => navigate("create")}>
+          Create New
+        </Button>
       </Stack>
       <TabSwitcher
         activeTab={activeTab}
@@ -26,7 +27,7 @@ const Tests = () => {
       {activeTab == 0 && <Completed />}
       {activeTab == 1 && <Published />}
       {activeTab == 2 && <Unpublished />}
-    </Box>
+    </Paper>
   );
 };
 

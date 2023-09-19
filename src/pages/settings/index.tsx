@@ -9,17 +9,16 @@ const Settings = () => {
   const [openChangePassword, setOpenChangePassword] = useState(false);
 
   return (
-    <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+    <Paper sx={{ p: 2 }}>
       <Stack direction="row" justifyContent="space-between">
         <Typography variant="h6">Settings</Typography>
       </Stack>
 
-      <Paper
+      <Box
         sx={{
           mt: 4,
           "& .box": {
-            borderBlock: "1px solid black",
-            borderCollapse: "collapse",
+            borderBlock: "1px solid #F5F5F5",
             cursor: "pointer",
             p: 4,
             "& .text": {
@@ -45,8 +44,8 @@ const Settings = () => {
         {/* <Box className="box">
           <Typography className="text">Appearance</Typography>
         </Box> */}
-      </Paper>
-    </Box>
+      </Box>
+    </Paper>
   );
 };
 

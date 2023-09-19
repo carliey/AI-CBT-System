@@ -36,8 +36,8 @@ const Router = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const user = useSelector(selectCurrentUser);
-  const user = { name: "muhammed" };
-  //const user = false;
+  //const user = { name: "muhammed" };
+  const user = false;
 
   useEffect(() => {
     //log the user back in with local storage data

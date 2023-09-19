@@ -1,10 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 
 const Appbar = () => {
   return (
-    <Box sx={{ p: 2, borderBottom: "1px solid #f3f3f3" }}>
+    <Paper
+      sx={{ p: 2, borderBottom: "1px solid #f3f3f3", backgroundColor: "white" }}
+    >
       <Typography variant="h6">App Logo</Typography>
-    </Box>
+    </Paper>
   );
 };
 

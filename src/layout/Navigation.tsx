@@ -28,7 +28,7 @@ const Navigation = () => {
   };
 
   return (
-    <Box sx={{ borderBottom: "1px solid #f3f3f3" }}>
+    <Box sx={{ borderBottom: "1px solid #f3f3f3", backgroundColor: "white" }}>
       <Container maxWidth="xl">
         <Toolbar>
           <Typography
@@ -101,6 +101,7 @@ const Navigation = () => {
                     sx={{
                       mx: 2,
                       color: isActive ? "black" : "grey",
+                      backgroundColor: isActive ? "#F5F5F5" : "transparent",
                       display: "block",
                     }}
                   >

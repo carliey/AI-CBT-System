@@ -87,14 +87,18 @@ const ViewCompletedTest = () => {
           <React.Fragment>
             <Table>
               <TableHead>
-                <TableCell align="left">Email</TableCell>
+                <TableCell align="left">id</TableCell>
+                <TableCell>name</TableCell>
+                <TableCell>email</TableCell>
                 <TableCell>Score</TableCell>
               </TableHead>
               <TableBody>
                 {test.results?.map((result, resultIndex) => (
                   <TableRow key={resultIndex}>
-                    <TableCell align="left">{result.email}</TableCell>
-                    <TableCell align="left">{result.score}</TableCell>
+                    <TableCell>001</TableCell>
+                    <TableCell>muhammed ladan</TableCell>
+                    <TableCell>{result.email}</TableCell>
+                    <TableCell>{result.score}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

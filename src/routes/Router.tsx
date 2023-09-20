@@ -36,7 +36,7 @@ const Router = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const user = useSelector(selectCurrentUser);
-  //const user = { name: "muhammed" };
+  // const user = { name: "muhammed" };
   const user = false;
 
   useEffect(() => {

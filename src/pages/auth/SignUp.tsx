@@ -6,19 +6,25 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 const validationSchema = yup.object({
-  // email: yup
-  //   .string()
-  //   .email("Enter a valid email")
-  //   .required("Email is required"),
-  // classroom: yup.string().required("Email is required"),
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
+  name: yup.string().required("required"),
+  address: yup.string().required("required"),
+  password: yup.string().required(),
+  password_confirm: yup
+    .string()
+    .required()
+    .oneOf([yup.ref("password"), ""], "passwords do not match"),
 });
 
 function SignUp() {
   const formik = useFormik({
     initialValues: {
       name: "",
+      email: "",
       address: "",
-      about: "",
       password: "",
       password_confirm: "",
     },
@@ -32,7 +38,10 @@ function SignUp() {
     <Box sx={{ py: 8, px: 6 }}>
       <Typography variant="h6">Sign up</Typography>
       <Typography sx={{ py: 2 }}>
-        Have an account? <Link to="/signin">Sign in</Link>
+        Have an account?{" "}
+        <Link to="/signin">
+          <strong>Sign in</strong>
+        </Link>
       </Typography>
       <Box component="form">
         <Grid container rowGap={2}>
@@ -41,7 +50,7 @@ function SignUp() {
               fullWidth
               id="name"
               name="name"
-              label="Organization Name *"
+              label="Organization Name "
               variant="outlined"
               value={formik.values.name}
               onChange={formik.handleChange}
@@ -52,14 +61,61 @@ function SignUp() {
           <Grid xs={12}>
             <TextField
               fullWidth
-              id="name"
-              name="name"
-              label="Organization Name *"
+              id="address"
+              name="address"
+              label="Organization address "
               variant="outlined"
-              value={formik.values.name}
+              value={formik.values.address}
               onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              error={formik.touched.address && Boolean(formik.errors.address)}
+              helperText={formik.touched.address && formik.errors.address}
+            />
+          </Grid>
+          <Grid xs={12}>
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              label="Organization email "
+              variant="outlined"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+          </Grid>
+          <Grid xs={12}>
+            <TextField
+              fullWidth
+              type="password"
+              id="password"
+              name="password"
+              label="Enter password"
+              variant="outlined"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+            />
+          </Grid>
+          <Grid xs={12}>
+            <TextField
+              fullWidth
+              type="password"
+              id="password_confirm"
+              name="password_confirm"
+              label="Confirm password"
+              variant="outlined"
+              value={formik.values.password_confirm}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.password_confirm &&
+                Boolean(formik.errors.password_confirm)
+              }
+              helperText={
+                formik.touched.password_confirm &&
+                formik.errors.password_confirm
+              }
             />
           </Grid>
           <Grid>

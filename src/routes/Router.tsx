@@ -14,7 +14,9 @@ import ViewCompletedTest from "../pages/test/view-test/ViewCompletedTest";
 import ViewPublishedTest from "../pages/test/view-test/ViewPublishedTest";
 import ViewUnpublishedTest from "../pages/test/view-test/ViewUnpublishedTest";
 import Instructions from "../pages/participant/Instructions";
-import Quiz from "../pages/participant/Quiz";
+import Quiz from "../pages/participant/QuizPage";
+import QuizComplete from "../pages/participant/QuizComplete";
+import ParticipantLayout from "../layout/ParticipantLayout";
 
 type ProtectedRoute = {
   user: any;
@@ -36,8 +38,8 @@ const Router = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const user = useSelector(selectCurrentUser);
-  // const user = { name: "muhammed" };
-  const user = false;
+  const user = { name: "muhammed" };
+  // const user = false;
 
   useEffect(() => {
     //log the user back in with local storage data
@@ -56,10 +58,10 @@ const Router = () => {
 
   return (
     <Routes>
-      <Route>
+      <Route element={<ParticipantLayout />}>
         {/* participant layout  */}
-        <Route path="/instruction" element={<Instructions />} />
-        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/test/:id/instructions" element={<Instructions />} />
+        <Route path="/quiz-complete" element={<QuizComplete />} />
       </Route>
 
       <Route element={<LandingLayout />}>

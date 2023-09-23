@@ -95,7 +95,7 @@ const completedTest2: Test = {
   ],
 };
 
-const pendingTest1: Test = {
+export const pendingTest1: Test = {
   title: "Pending Test 1",
   description: "This is a pending test.",
   instructions: "Read each question carefully before answering.",
@@ -181,6 +181,45 @@ const pendingTest2: Test = {
     { name: "Eve Davis", email: "ED789" },
   ],
   results: [],
+};
+
+export const participantTest = {
+  title: "Pending Test 1",
+  description: "This is a pending test.",
+  instructions: "Read each question carefully before answering.",
+  duration: "45",
+  datetime: "2023-09-10T09:00:00",
+  questions: [
+    {
+      question: "What is the capital of Spain?",
+      options: [
+        { option: "Madrid", is_correct: true },
+        { option: "Paris", is_correct: false },
+        { option: "Rome", is_correct: false },
+        { option: "Berlin", is_correct: false },
+      ],
+    },
+    {
+      question: "Which gas do plants primarily absorb from the atmosphere?",
+      options: [
+        { option: "Oxygen", is_correct: false },
+        { option: "Nitrogen", is_correct: false },
+        { option: "Carbon Dioxide", is_correct: true },
+        { option: "Hydrogen", is_correct: false },
+      ],
+    },
+    {
+      question: "What is the largest mammal?",
+      options: [
+        { option: "Elephant", is_correct: false },
+        { option: "Blue Whale", is_correct: true },
+        { option: "Giraffe", is_correct: false },
+        { option: "Hippopotamus", is_correct: false },
+      ],
+    },
+  ],
+  testStatus: "pending",
+  participant: { name: "John Doe", email: "JD123" },
 };
 
 export const completedTests: Test[] = [completedTest1, completedTest2];

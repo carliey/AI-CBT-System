@@ -1,35 +1,36 @@
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Box,
   Button,
-  Card,
-  FormControl,
   Grid,
-  Input,
   Paper,
   Radio,
   Stack,
   Typography,
 } from "@mui/material";
-import { Option, Questions } from "../../types/test";
+import { Option, ParticipantTest } from "../../types/test";
 import Countdown from "react-countdown";
 import { useNavigate } from "react-router-dom";
 
 interface QuizPageProps {
-  questions: Questions;
+  test: ParticipantTest;
 }
 
-interface CountdownRendererProps {
-  hours: number;
-  minutes: number;
-  seconds: number;
-  completed: boolean;
-}
-
-function QuizPage({ questions }: QuizPageProps) {
+function QuizPage({ test }: QuizPageProps) {
   const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [responses, setResponses] = useState(Array(questions.length).fill(""));
+
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const storedCountdown = localStorage.getItem(`countdown_${test.id}`);
+    if (storedCountdown) {
+      return parseInt(storedCountdown);
+    }
+    return parseInt(test.duration) * 60 * 1000;
+  });
+
+  const [responses, setResponses] = useState(
+    Array(test.questions.length).fill("")
+  );
 
   const handleResponseChange = (index: number, value: string) => {
     const newResponses = [...responses];
@@ -38,7 +39,7 @@ function QuizPage({ questions }: QuizPageProps) {
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < test.questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
@@ -51,24 +52,29 @@ function QuizPage({ questions }: QuizPageProps) {
 
   const handleSubmit = () => {
     console.log("Responses:", responses);
+    localStorage.clear();
     navigate("/quiz-complete");
 
-    //send the responses to a server or calculate the score, etc.
+    //send the responses to the server to calculate the user score.
     //navigate the user to the result screen
   };
 
-  const isLastQuestion = currentQuestion === questions.length - 1;
-  const question = questions[currentQuestion];
+  const isLastQuestion = currentQuestion === test.questions.length - 1;
+  const question = test.questions[currentQuestion];
 
   const countdownRenderer = ({ hours, minutes, seconds, completed }: any) => {
+    const isLessThanMinute = hours === 0 && minutes < 5;
+
     if (completed) {
-      // Render a completed state
       handleSubmit();
-      return <Typography>00:00:00</Typography>;
     } else {
       // Render a countdown
       return (
-        <Typography>
+        <Typography
+          sx={{
+            color: isLessThanMinute ? "red" : "black",
+          }}
+        >
           - {hours}:{minutes}:{seconds}
         </Typography>
       );
@@ -79,7 +85,14 @@ function QuizPage({ questions }: QuizPageProps) {
     <Box className="container">
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <Paper sx={{ width: "200px", p: 1, textAlign: "center" }}>
-          <Countdown date={Date.now() + 5000} renderer={countdownRenderer} />
+          <Countdown
+            onTick={(e: any) => {
+              localStorage.setItem(`countdown_${test.id}`, e.total);
+              setTimeLeft(e.total);
+            }}
+            date={Date.now() + timeLeft}
+            renderer={countdownRenderer}
+          />
         </Paper>
       </Box>
 
@@ -131,7 +144,7 @@ function QuizPage({ questions }: QuizPageProps) {
 
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
         <Button variant="contained" onClick={handleSubmit}>
-          Submit Quiz
+          Submit Test
         </Button>
       </Box>
     </Box>

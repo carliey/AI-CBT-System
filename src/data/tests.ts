@@ -219,7 +219,7 @@ export const participantTest = {
     },
   ],
   testStatus: "pending",
-  participant: { name: "John Doe", email: "JD123" },
+  participant: { name: "John Doe", email: "JD123", id: "001" },
 };
 
 export const completedTests: Test[] = [completedTest1, completedTest2];

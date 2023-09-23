@@ -4,7 +4,7 @@ import QuizPage from "./QuizPage";
 import { participantTest } from "../../data/tests";
 import Countdown from "react-countdown";
 
-const Instructions = () => {
+const Quiz = () => {
   const [hasStarted, setHasStarted] = useState(false);
 
   const handleStartTest = () => {
@@ -15,7 +15,7 @@ const Instructions = () => {
   const currentTest = participantTest;
 
   return hasStarted ? (
-    <QuizPage questions={currentTest.questions} />
+    <QuizPage test={currentTest} />
   ) : (
     <Grid container spacing={5}>
       {/* Welcome and Test Instructions Section */}
@@ -113,4 +113,4 @@ const Instructions = () => {
   );
 };
 
-export default Instructions;
+export default Quiz;

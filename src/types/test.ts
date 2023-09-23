@@ -33,3 +33,17 @@ export interface Test {
   results?: TestResult[];
   participants: Participant[];
 }
+export interface ParticipantTest {
+  id?: number;
+  title: string;
+  description: string;
+  instructions: string;
+  duration: string;
+  datetime: string;
+  questions: Question[];
+  participant: {
+    email: string;
+    name: string;
+    id?: string;
+  };
+}

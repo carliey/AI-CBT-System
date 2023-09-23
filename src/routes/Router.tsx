@@ -13,10 +13,10 @@ import CreateTest from "../pages/test/CreateTest/CreateTest";
 import ViewCompletedTest from "../pages/test/view-test/ViewCompletedTest";
 import ViewPublishedTest from "../pages/test/view-test/ViewPublishedTest";
 import ViewUnpublishedTest from "../pages/test/view-test/ViewUnpublishedTest";
-import Instructions from "../pages/participant/Instructions";
-import Quiz from "../pages/participant/QuizPage";
+
 import QuizComplete from "../pages/participant/QuizComplete";
 import ParticipantLayout from "../layout/ParticipantLayout";
+import Quiz from "../pages/participant";
 
 type ProtectedRoute = {
   user: any;
@@ -60,7 +60,7 @@ const Router = () => {
     <Routes>
       <Route element={<ParticipantLayout />}>
         {/* participant layout  */}
-        <Route path="/test/:id/instructions" element={<Instructions />} />
+        <Route path="/test/:id/" element={<Quiz />} />
         <Route path="/quiz-complete" element={<QuizComplete />} />
       </Route>
 

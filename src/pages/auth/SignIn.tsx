@@ -4,6 +4,10 @@ import { Button, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useLoginMutation } from "./authApiSlice";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../../app/hooks";
+import { login } from "./authSlice";
 
 const validationSchema = yup.object({
   email: yup
@@ -14,6 +18,9 @@ const validationSchema = yup.object({
 });
 
 function SignIn() {
+  const [signin, { isLoading }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -21,8 +28,19 @@ function SignIn() {
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
+      try {
+        const res = await signin(values).unwrap();
+        dispatch(login(res));
+      } catch (error: any) {
+        console.log(error);
+        if (error && error?.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("something went wrong");
+        }
+      }
     },
   });
   return (
@@ -34,7 +52,7 @@ function SignIn() {
           <strong>Sign up</strong>
         </Link>
       </Typography>
-      <Box component="form">
+      <Box component="form" onSubmit={formik.handleSubmit}>
         <Grid container rowGap={2}>
           <Grid xs={12}>
             <TextField
@@ -64,7 +82,9 @@ function SignIn() {
             />
           </Grid>
           <Grid>
-            <Button variant="contained">Create Account</Button>
+            <Button type="submit" variant="contained">
+              {isLoading ? "Loading..." : "Signin"}
+            </Button>
           </Grid>
         </Grid>
       </Box>

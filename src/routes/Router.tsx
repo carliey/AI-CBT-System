@@ -12,11 +12,10 @@ import CreateTest from "../pages/test/CreateTest/CreateTest";
 import ViewCompletedTest from "../pages/test/view-test/ViewCompletedTest";
 import ViewPublishedTest from "../pages/test/view-test/ViewPublishedTest";
 import ViewUnpublishedTest from "../pages/test/view-test/ViewUnpublishedTest";
-
 import QuizComplete from "../pages/participant/QuizComplete";
 import ParticipantLayout from "../layout/ParticipantLayout";
 import Quiz from "../pages/participant";
-import { selectCurrentUser } from "../pages/auth/authSlice";
+import { login, selectCurrentUser } from "../pages/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 type ProtectedRoute = {
@@ -44,7 +43,7 @@ const Router = () => {
     //log the user back in with local storage data
     const credentials = localStorage.getItem("credentials");
     if (credentials) {
-      // dispatch(login(JSON.parse(credentials)));
+      dispatch(login(JSON.parse(credentials)));
     }
   }, []);
 

@@ -11,8 +11,11 @@ import {
 } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { selectCurrentUser } from "../pages/auth/authSlice";
+import { useAppSelector } from "../app/hooks";
 
 const Navigation = () => {
+  const user = useAppSelector(selectCurrentUser);
   const pages = ["Overview", "Library", "Tests", "settings"];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -45,9 +48,10 @@ const Navigation = () => {
               letterSpacing: ".12rem",
               color: "inherit",
               textDecoration: "none",
+              textTransform: "uppercase",
             }}
           >
-            Company name
+            {user.name}
           </Typography>
 
           <Box

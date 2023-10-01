@@ -3,10 +3,18 @@ import { Paper, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import ChangePasswordModal from "./ChangePasswordModal";
 import UpdateProfileModal from "./UpdateProfileModal";
+import { Logout } from "@mui/icons-material";
+import { useAppDispatch } from "../../app/hooks";
+import { logout } from "../auth/authSlice";
 
 const Settings = () => {
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const [openChangePassword, setOpenChangePassword] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <Paper sx={{ p: 2 }}>
@@ -27,6 +35,8 @@ const Settings = () => {
             borderBlock: "1px solid #F5F5F5",
             cursor: "pointer",
             p: 4,
+            display: "flex",
+            justifyContent: "space-between",
           },
         }}
       >
@@ -44,6 +54,10 @@ const Settings = () => {
           open={openChangePassword}
           onClose={() => setOpenChangePassword(false)}
         />
+        <Box className="box" onClick={handleLogout}>
+          <Typography className="text">Logout</Typography>
+          <Logout />
+        </Box>
         {/* <Box className="box">
           <Typography className="text">Appearance</Typography>
         </Box> */}

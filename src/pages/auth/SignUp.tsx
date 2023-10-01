@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Button, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { toast } from "react-toastify";
+import { useSignupMutation } from "./authApiSlice";
 
 const validationSchema = yup.object({
   email: yup
@@ -20,6 +22,9 @@ const validationSchema = yup.object({
 });
 
 function SignUp() {
+  const [register, { isLoading }] = useSignupMutation();
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -30,10 +35,29 @@ function SignUp() {
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      const data = {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        about: values.about,
+      };
+      try {
+        const res = await register(data).unwrap();
+        toast.success("Account Created, Signin to continue");
+        navigate("/signin");
+        console.log(res);
+      } catch (error: any) {
+        console.log(error);
+        if (error && error?.message) {
+          toast.error(error.message);
+        } else {
+          toast.error("something went wrong");
+        }
+      }
     },
   });
+
   return (
     <Box sx={{ py: 8, px: 6 }}>
       <Typography variant="h6">Sign up</Typography>
@@ -43,7 +67,7 @@ function SignUp() {
           <strong>Sign in</strong>
         </Link>
       </Typography>
-      <Box component="form">
+      <Box component="form" onSubmit={formik.handleSubmit}>
         <Grid container rowGap={2}>
           <Grid xs={12}>
             <TextField
@@ -119,7 +143,9 @@ function SignUp() {
             />
           </Grid>
           <Grid>
-            <Button variant="contained">Create Account</Button>
+            <Button type="submit" variant="contained">
+              {isLoading ? "loading" : "Create Account"}
+            </Button>
           </Grid>
         </Grid>
       </Box>

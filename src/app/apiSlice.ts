@@ -5,7 +5,7 @@ import type {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 
-const api_url = import.meta.env.VITE_API_URL || "https://localhost:8080/";
+const api_url = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: api_url,

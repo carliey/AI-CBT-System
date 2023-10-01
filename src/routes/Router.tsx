@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "../app/store";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
@@ -17,6 +16,8 @@ import ViewUnpublishedTest from "../pages/test/view-test/ViewUnpublishedTest";
 import QuizComplete from "../pages/participant/QuizComplete";
 import ParticipantLayout from "../layout/ParticipantLayout";
 import Quiz from "../pages/participant";
+import { selectCurrentUser } from "../pages/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 
 type ProtectedRoute = {
   user: any;
@@ -37,9 +38,7 @@ const ProtectedRoute = ({ user, children }: ProtectedRoute) => {
 const Router = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  // const user = useSelector(selectCurrentUser);
-  const user = { name: "muhammed" };
-  // const user = false;
+  const user = useAppSelector(selectCurrentUser);
 
   useEffect(() => {
     //log the user back in with local storage data

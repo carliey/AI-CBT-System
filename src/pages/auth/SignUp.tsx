@@ -11,7 +11,7 @@ const validationSchema = yup.object({
     .email("Enter a valid email")
     .required("Email is required"),
   name: yup.string().required("required"),
-  address: yup.string().required("required"),
+  about: yup.string().required("required"),
   password: yup.string().required(),
   password_confirm: yup
     .string()
@@ -24,7 +24,7 @@ function SignUp() {
     initialValues: {
       name: "",
       email: "",
-      address: "",
+      about: "",
       password: "",
       password_confirm: "",
     },
@@ -61,14 +61,14 @@ function SignUp() {
           <Grid xs={12}>
             <TextField
               fullWidth
-              id="address"
-              name="address"
-              label="Organization address "
+              id="about"
+              name="about"
+              label="About"
               variant="outlined"
-              value={formik.values.address}
+              value={formik.values.about}
               onChange={formik.handleChange}
-              error={formik.touched.address && Boolean(formik.errors.address)}
-              helperText={formik.touched.address && formik.errors.address}
+              error={formik.touched.about && Boolean(formik.errors.about)}
+              helperText={formik.touched.about && formik.errors.about}
             />
           </Grid>
           <Grid xs={12}>

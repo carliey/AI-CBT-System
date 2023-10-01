@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -62,11 +62,27 @@ function QuizPage({ test }: QuizPageProps) {
   const isLastQuestion = currentQuestion === test.questions.length - 1;
   const question = test.questions[currentQuestion];
 
+  useEffect(() => {
+    const handleBeforeUnload = (event: any) => {
+      // Prompt the user with a confirmation message
+      alert("test will be submitted automatically if you try to leave");
+      handleSubmit();
+      event.preventDefault();
+
+      // event.returnValue = "test will be submitted automatically";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   const countdownRenderer = ({ hours, minutes, seconds, completed }: any) => {
     const isLessThanMinute = hours === 0 && minutes < 5;
-
     if (completed) {
-      handleSubmit();
+      handleSubmit(); //submit by countdown
     } else {
       // Render a countdown
       return (

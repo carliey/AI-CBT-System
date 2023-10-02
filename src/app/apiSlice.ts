@@ -9,7 +9,7 @@ const api_url = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: api_url,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers) => {
     const credentials = localStorage.getItem("credentials");
     if (credentials) {
       const { token } = JSON.parse(credentials);

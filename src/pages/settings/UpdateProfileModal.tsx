@@ -8,7 +8,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import * as yup from "yup";
+import { useUpdateProfileMutation } from "./profileApiSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { setProfile } from "../auth/authSlice";
 
 interface Props {
   open: boolean;
@@ -17,21 +21,29 @@ interface Props {
 
 const validationSchema = yup.object({
   name: yup.string().required("Password is required"),
-  address: yup.string().required("New Password Is Required"),
   about: yup.string().required("About is required"),
 });
 
 const UpdateProfileModal = ({ open, onClose }: Props) => {
+  const dispatch = useAppDispatch();
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const formik = useFormik({
     initialValues: {
       name: "",
-      address: "",
       about: "",
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const res = await updateProfile(values).unwrap();
+        dispatch(setProfile({ user: res.data }));
+        toast.success("profile updated successfully");
+        onClose();
+      } catch (error) {
+        toast.error("something went wrong");
+        console.log(error);
+      }
     },
   });
 
@@ -39,7 +51,7 @@ const UpdateProfileModal = ({ open, onClose }: Props) => {
     <Dialog onClose={onClose} open={open} maxWidth="lg">
       <DialogTitle>Update Profile</DialogTitle>
       <DialogContent>
-        <Box component="form">
+        <Box component="form" onSubmit={formik.handleSubmit}>
           <Grid container rowGap={2}>
             <Grid xs={12}>
               <TextField
@@ -54,19 +66,7 @@ const UpdateProfileModal = ({ open, onClose }: Props) => {
                 helperText={formik.touched.name && formik.errors.name}
               />
             </Grid>
-            <Grid xs={12}>
-              <TextField
-                fullWidth
-                id="address"
-                name="address"
-                label="Address"
-                variant="outlined"
-                value={formik.values.address}
-                onChange={formik.handleChange}
-                error={formik.touched.address && Boolean(formik.errors.address)}
-                helperText={formik.touched.address && formik.errors.address}
-              />
-            </Grid>
+
             <Grid xs={12}>
               <TextField
                 fullWidth
@@ -88,7 +88,7 @@ const UpdateProfileModal = ({ open, onClose }: Props) => {
                 fullWidth
                 type="submit"
               >
-                Submit
+                {isLoading ? "loading..." : "Submit"}
               </Button>
             </Grid>
           </Grid>

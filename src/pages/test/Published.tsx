@@ -10,6 +10,7 @@ const Published = () => {
     e.stopPropagation();
     console.log("handle unpublish");
   };
+
   return (
     <div>
       {pendingTests.map((test: Test, index) => (
@@ -33,7 +34,7 @@ const Published = () => {
               Participants: {test.participants?.length}
             </Typography>
             <Typography variant="subtitle1" sx={{ width: "220px" }}>
-              Date: {new Date(test.datetime).toLocaleString()}
+              Date: {new Date(test.date).toLocaleString()}
             </Typography>
             <Button variant="contained" onClick={handleUnpublish}>
               Unpublish

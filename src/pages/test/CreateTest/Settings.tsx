@@ -14,6 +14,7 @@ import ParticipantsTable from "./ParticipantsTable";
 import { Participant } from "../../../types/participants";
 import UploadParticipantsModal from "./UploadParticipantsModal";
 import { FormData } from "./CreateTest";
+import { useExtractParticipantsFromListMutation } from "../testApiSlice";
 
 type Props = {
   participants: Participant[];
@@ -24,6 +25,8 @@ type Props = {
 const Settings = ({ formData, participants, handleChange }: Props) => {
   const [checked, setChecked] = useState(["wifi"]);
   const [openUploadParticipants, setOpenUploadParticipants] = useState(false);
+  const [data, { isLoading }] = useExtractParticipantsFromListMutation();
+
   const handleToggle = (value: string) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];

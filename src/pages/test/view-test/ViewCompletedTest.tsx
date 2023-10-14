@@ -67,7 +67,7 @@ const ViewCompletedTest = () => {
           <Grid item xs={6}>
             <Typography variant="subtitle1">
               <span className="label"> Date:</span>{" "}
-              {new Date(test.datetime).toLocaleString()}
+              {new Date(test.date).toLocaleString()}
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -118,7 +118,7 @@ const ViewCompletedTest = () => {
                 </Typography>
                 <Grid container columnSpacing={10} rowSpacing={2}>
                   <Grid item xs={12}>
-                    <Typography>{question.question}</Typography>
+                    <Typography>{question.text}</Typography>
                   </Grid>
                   {question.options.map((option: Option, i: number) => (
                     <Grid item xs={12} sm={6} key={i}>

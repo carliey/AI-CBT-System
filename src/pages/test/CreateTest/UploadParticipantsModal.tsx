@@ -7,6 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, useRef } from "react";
+import { useExtractParticipantsFromListMutation } from "../testApiSlice";
+import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -14,24 +16,35 @@ interface Props {
 }
 
 const UploadParticipantsModal = ({ open, onClose }: Props) => {
+  const [extractParticipants] = useExtractParticipantsFromListMutation();
+
   const uploadButtonRef = useRef<HTMLInputElement>(null);
 
   const uploadFile = async (data: FormData) => {
     try {
-      //   const response = await addMedia(data).unwrap();
+      console.log("data", data);
+
+      for (const value of data.values()) {
+        console.log("data", value);
+      }
+
+      const response = await extractParticipants(data).unwrap();
+      console.log(response);
       //   setSelectedDocument(response?.media[0]?.url); // automatically select file
-      alert({ status: "success", message: "Media uploaded successfully" });
+      toast.success("Media uploaded successfully");
     } catch (error) {
-      alert({ status: "error", message: "Failed to upload media" });
+      toast.error("Failed to upload media");
       console.log(error);
     }
   };
 
-  const handleImagePickerChange = function (e: ChangeEvent<HTMLInputElement>) {
+  const handleFilePicker = function (e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      console.log(file);
       const data = new FormData();
-      data.append("file", file);
+      data.append("excel", file);
+
       uploadFile(data);
     }
   };
@@ -53,7 +66,7 @@ const UploadParticipantsModal = ({ open, onClose }: Props) => {
             style={{ display: "none" }}
             type="file"
             ref={uploadButtonRef}
-            onChange={handleImagePickerChange}
+            onChange={handleFilePicker}
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
           />
 
@@ -62,14 +75,15 @@ const UploadParticipantsModal = ({ open, onClose }: Props) => {
           </Typography>
         </Stack>
 
-        <Button
+        {/* <Button
           variant="contained"
           color="success"
           fullWidth
           onClick={() => alert("upload")}
+          disabled={isLoading}
         >
-          Upload
-        </Button>
+          {isLoading ? "loading" : "Upload"}
+        </Button> */}
       </DialogContent>
     </Dialog>
   );

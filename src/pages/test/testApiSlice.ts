@@ -21,6 +21,15 @@ export const profileApiSlice = apiSliceWithTags.injectEndpoints({
       }),
       invalidatesTags: ["Quizes"],
     }),
+
+    extractParticipantsFromList: builder.mutation<any, any>({
+      query: (values) => ({
+        url: "/extract-participants",
+        method: "POST",
+        body: values,
+      }),
+    }),
+
     updatePassword: builder.mutation<any, { password: string }>({
       query: (values) => ({
         url: "/reset-password",
@@ -36,4 +45,5 @@ export const {
   useGetQuizesQuery,
   useCreateQuizMutation,
   useUpdatePasswordMutation,
+  useExtractParticipantsFromListMutation,
 } = profileApiSlice;

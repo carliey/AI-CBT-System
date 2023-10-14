@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import { Add } from "@mui/icons-material";
 import { Participant } from "../../../types/participants";
+import { useExtractParticipantsFromListMutation } from "../testApiSlice";
 
 interface Data {
   name: string;
@@ -219,6 +220,7 @@ export default function ParticipantsTable({
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const [data, { isLoading }] = useExtractParticipantsFromListMutation();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -290,7 +292,6 @@ export default function ParticipantsTable({
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.name);
                 const labelId = `enhanced-table-checkbox-${index}`;
-
                 return (
                   <TableRow
                     hover

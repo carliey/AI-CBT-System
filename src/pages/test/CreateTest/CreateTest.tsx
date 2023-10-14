@@ -5,13 +5,15 @@ import TabSwitcher from "../../../components/TabSwitcher";
 import Settings from "./Settings";
 import Questions from "./Questions";
 import { participants } from "../../../data/participants";
+import { useCreateQuizMutation } from "../testApiSlice";
+import { toast } from "react-toastify";
 
 export interface FormData {
   title: string;
   description: string;
   instructions: string;
   duration: number;
-  datetime: string;
+  date: string;
 }
 
 const initialFormData: FormData = {
@@ -19,7 +21,7 @@ const initialFormData: FormData = {
   description: "",
   instructions: "",
   duration: 0,
-  datetime: "",
+  date: "",
 };
 
 const CreateTest = () => {
@@ -27,6 +29,7 @@ const CreateTest = () => {
   const tabs = ["Questions", "Settings"];
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [createQuiz] = useCreateQuizMutation();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -38,7 +41,7 @@ const CreateTest = () => {
 
   const [questions, setQuestions] = useState<Question[]>([
     {
-      question: "",
+      text: "",
       options: [
         { option: "", is_correct: false },
         { option: "", is_correct: false },
@@ -52,12 +55,21 @@ const CreateTest = () => {
     return participants || [];
   }, []);
 
-  const handleSaveTest = () => {
+  const handleSaveTest = async () => {
     const testBody = {
       ...formData,
       questions,
       participants: participantsList,
     };
+
+    try {
+      const res = await createQuiz(testBody).unwrap();
+      console.log(res);
+      toast.success("test created successfully");
+    } catch (error) {
+      toast.error("something went wrong");
+      console.log(error);
+    }
     console.log(testBody);
   };
 

@@ -4,6 +4,7 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
+import { toast } from "react-toastify";
 
 const api_url = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
@@ -30,7 +31,7 @@ const baseQuerywithAuth: BaseQueryFn<
 
   if (result.error && result.error.status === 401) {
     //unauthorized
-    alert("unauthorized");
+    toast.error("unauthorized");
   }
   return result;
 };

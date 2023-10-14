@@ -5,7 +5,6 @@ import {
   Button,
   ButtonGroup,
   Card,
-  FormControl,
   Grid,
   Input,
   Radio,
@@ -31,8 +30,6 @@ interface Props {
 function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const openAddBlock = Boolean(anchorEl);
-  const [dragActive, setDragActive] = useState(null);
-  const [toast, setToast] = useState(null);
   const [isDeletingBlock, setIsDeletingBlock] = useState(null);
   const [confirmation, setConfirmation] = useState<any>(null);
   const [targetBlock, setTargetBlock] = useState(null); // to target which block to add loading to
@@ -42,7 +39,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
     setQuestions((prev: Questions) => [
       ...prev,
       {
-        question: "",
+        text: "",
         options: [
           { option: "", is_correct: false },
           { option: "", is_correct: false },
@@ -97,7 +94,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
     if (name === "question") {
       newQuestion = {
         ...question,
-        question: value,
+        text: value,
       };
     }
 
@@ -250,7 +247,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   handleQuestionChange(e, { question, questionIndex: index })
                 }
-                value={question?.question}
+                value={question?.text}
               />
               <Grid container columnSpacing={10} rowSpacing={2}>
                 {question.options.map((option: Option, i: number) => (

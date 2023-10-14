@@ -4,11 +4,11 @@ const completedTest1: Test = {
   title: "Completed Test 1",
   description: "This is a completed test.",
   instructions: "Read each question carefully before answering.",
-  duration: "60",
-  datetime: "2023-09-01T14:00:00",
+  duration: 60,
+  date: "2023-09-01",
   questions: [
     {
-      question: "What is the capital of France?",
+      text: "What is the capital of France?",
       options: [
         { option: "Paris", is_correct: true },
         { option: "Berlin", is_correct: false },
@@ -17,7 +17,7 @@ const completedTest1: Test = {
       ],
     },
     {
-      question: "What is 5 + 3?",
+      text: "What is 5 + 3?",
       options: [
         { option: "6", is_correct: false },
         { option: "7", is_correct: false },
@@ -56,11 +56,11 @@ const completedTest2: Test = {
   title: "Completed Test 2",
   description: "This is another completed test.",
   instructions: "Read each question carefully before answering.",
-  duration: "45",
-  datetime: "2023-09-03T10:00:00",
+  duration: 45,
+  date: "2023-09-03",
   questions: [
     {
-      question: "What is 5 + 3?",
+      text: "What is 5 + 3?",
       options: [
         { option: "6", is_correct: false },
         { option: "7", is_correct: false },
@@ -99,11 +99,11 @@ export const pendingTest1: Test = {
   title: "Pending Test 1",
   description: "This is a pending test.",
   instructions: "Read each question carefully before answering.",
-  duration: "45",
-  datetime: "2023-09-10T09:00:00",
+  duration: 45,
+  date: "2023-09-10",
   questions: [
     {
-      question: "What is the capital of Spain?",
+      text: "What is the capital of Spain?",
       options: [
         { option: "Madrid", is_correct: true },
         { option: "Paris", is_correct: false },
@@ -112,7 +112,7 @@ export const pendingTest1: Test = {
       ],
     },
     {
-      question: "Which gas do plants primarily absorb from the atmosphere?",
+      text: "Which gas do plants primarily absorb from the atmosphere?",
       options: [
         { option: "Oxygen", is_correct: false },
         { option: "Nitrogen", is_correct: false },
@@ -121,7 +121,7 @@ export const pendingTest1: Test = {
       ],
     },
     {
-      question: "What is the largest mammal?",
+      text: "What is the largest mammal?",
       options: [
         { option: "Elephant", is_correct: false },
         { option: "Blue Whale", is_correct: true },
@@ -143,11 +143,11 @@ const pendingTest2: Test = {
   title: "Pending Test 2",
   description: "This is another pending test.",
   instructions: "Read each question carefully before answering.",
-  duration: "30",
-  datetime: "2023-09-15T14:30:00",
+  duration: 30,
+  date: "2023-09-15T14:30:00",
   questions: [
     {
-      question: "Which planet is known as the Red Planet?",
+      text: "Which planet is known as the Red Planet?",
       options: [
         { option: "Venus", is_correct: false },
         { option: "Mars", is_correct: true },
@@ -156,7 +156,7 @@ const pendingTest2: Test = {
       ],
     },
     {
-      question: "What is the chemical symbol for gold?",
+      text: "What is the chemical symbol for gold?",
       options: [
         { option: "Au", is_correct: true },
         { option: "Ag", is_correct: false },
@@ -165,7 +165,7 @@ const pendingTest2: Test = {
       ],
     },
     {
-      question: "What process converts sugar into alcohol?",
+      text: "What process converts sugar into alcohol?",
       options: [
         { option: "Fermentation", is_correct: true },
         { option: "Distillation", is_correct: false },
@@ -191,7 +191,7 @@ export const participantTest = {
   datetime: "2023-09-10T09:00:00",
   questions: [
     {
-      question: "What is the capital of Spain?",
+      text: "What is the capital of Spain?",
       options: [
         { option: "Madrid", is_correct: true },
         { option: "Paris", is_correct: false },
@@ -200,7 +200,7 @@ export const participantTest = {
       ],
     },
     {
-      question: "Which gas do plants primarily absorb from the atmosphere?",
+      text: "Which gas do plants primarily absorb from the atmosphere?",
       options: [
         { option: "Oxygen", is_correct: false },
         { option: "Nitrogen", is_correct: false },
@@ -209,7 +209,7 @@ export const participantTest = {
       ],
     },
     {
-      question: "What is the largest mammal?",
+      text: "What is the largest mammal?",
       options: [
         { option: "Elephant", is_correct: false },
         { option: "Blue Whale", is_correct: true },

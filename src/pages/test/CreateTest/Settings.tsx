@@ -7,6 +7,7 @@ import {
   ListItemText,
   Switch,
   TextField,
+  Typography,
 } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import ParticipantsTable from "./ParticipantsTable";
@@ -88,15 +89,16 @@ const Settings = ({ formData, participants, handleChange }: Props) => {
               />
             </Grid>
             <Grid item xs={6}>
+              <Typography sx={{ fontSize: "11px", color: "grey" }}>
+                Date
+              </Typography>
               <TextField
                 fullWidth
-                type="datetime-local"
-                label="Date and Time"
+                type="date"
                 variant="standard"
-                name="datetime"
-                value={formData.datetime}
+                name="date"
+                value={formData.date}
                 onChange={handleChange}
-                placeholder="Datetime"
               />
             </Grid>
           </Grid>

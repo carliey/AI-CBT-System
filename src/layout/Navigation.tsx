@@ -16,7 +16,7 @@ import { useAppSelector } from "../app/hooks";
 
 const Navigation = () => {
   const user = useAppSelector(selectCurrentUser);
-  const pages = ["Overview", "Library", "Tests", "settings"];
+  const pages = ["Overview", "Tests", "settings"];
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null

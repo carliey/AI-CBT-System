@@ -8,7 +8,7 @@ export type Option = {
 
 export type Question = {
   id?: number;
-  question: string;
+  text: string;
   options: Option[];
 };
 
@@ -26,10 +26,10 @@ export interface Test {
   title: string;
   description: string;
   instructions: string;
-  duration: string;
-  datetime: string;
+  duration: number;
+  date: string;
   questions: Question[];
-  testStatus: "pending" | "completed";
+  testStatus?: "pending" | "completed";
   results?: TestResult[];
   participants: Participant[];
 }

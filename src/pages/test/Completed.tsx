@@ -1,4 +1,4 @@
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { completedTests } from "../../data/tests";
 import { Test } from "../../types/test";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ const Completed = () => {
               Participants: {test.results?.length}
             </Typography>
             <Typography variant="subtitle1" sx={{ width: "220px" }}>
-              Date: {new Date(test.datetime).toLocaleString()}
+              Date: {new Date(test.date).toLocaleString()}
             </Typography>
           </Stack>
         </Box>

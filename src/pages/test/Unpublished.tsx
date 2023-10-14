@@ -33,7 +33,7 @@ const Unpublished = () => {
               Participants: {test.participants?.length}
             </Typography>
             <Typography variant="subtitle1" sx={{ width: "220px" }}>
-              Date: {new Date(test.datetime).toLocaleString()}
+              Date: {new Date(test.date).toLocaleString()}
             </Typography>
             <Button variant="contained" onClick={handlePublish}>
               Publish

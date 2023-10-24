@@ -1,11 +1,11 @@
-import { Box, Paper, Typography } from "@mui/material";
-
+import { Paper } from "@mui/material";
+import ComputerIcon from "@mui/icons-material/Computer";
 const Appbar = () => {
   return (
     <Paper
       sx={{ p: 2, borderBottom: "1px solid #f3f3f3", backgroundColor: "white" }}
     >
-      <Typography variant="h6">App Logo</Typography>
+      <ComputerIcon fontSize="large" />
     </Paper>
   );
 };

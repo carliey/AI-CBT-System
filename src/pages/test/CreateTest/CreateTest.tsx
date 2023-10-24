@@ -1,12 +1,12 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { Question } from "../../../types/test";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import TabSwitcher from "../../../components/TabSwitcher";
 import Settings from "./Settings";
 import Questions from "./Questions";
-import { participants } from "../../../data/participants";
 import { useCreateQuizMutation } from "../testApiSlice";
 import { toast } from "react-toastify";
+import { Participant } from "../../../types/participants";
 
 export interface FormData {
   title: string;
@@ -29,6 +29,7 @@ const CreateTest = () => {
   const tabs = ["Questions", "Settings"];
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [participants, setParticipants] = useState<Participant[]>([]);
   const [createQuiz] = useCreateQuizMutation();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,15 +52,11 @@ const CreateTest = () => {
     },
   ]);
 
-  const participantsList = useMemo(() => {
-    return participants || [];
-  }, []);
-
   const handleSaveTest = async () => {
     const testBody = {
       ...formData,
       questions,
-      participants: participantsList,
+      participants: participants,
     };
 
     try {
@@ -96,7 +93,8 @@ const CreateTest = () => {
           <Settings
             formData={formData}
             handleChange={handleChange}
-            participants={participantsList}
+            participants={participants}
+            setParticipants={setParticipants}
           />
         )}
         {activeTab === 0 && (

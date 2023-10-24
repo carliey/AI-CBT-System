@@ -9,31 +9,28 @@ import {
 import { ChangeEvent, useRef } from "react";
 import { useExtractParticipantsFromListMutation } from "../testApiSlice";
 import { toast } from "react-toastify";
+import { Participant } from "../../../types/participants";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
 }
 
-const UploadParticipantsModal = ({ open, onClose }: Props) => {
+const UploadParticipantsModal = ({ open, onClose, setParticipants }: Props) => {
   const [extractParticipants] = useExtractParticipantsFromListMutation();
 
   const uploadButtonRef = useRef<HTMLInputElement>(null);
 
   const uploadFile = async (data: FormData) => {
     try {
-      console.log("data", data);
-
-      for (const value of data.values()) {
-        console.log("data", value);
-      }
-
       const response = await extractParticipants(data).unwrap();
-      console.log(response);
-      //   setSelectedDocument(response?.media[0]?.url); // automatically select file
-      toast.success("Media uploaded successfully");
+      setParticipants(response);
+      toast.success("participant data successfully extracted ");
     } catch (error) {
-      toast.error("Failed to upload media");
+      toast.error(
+        "Failed to extract participant data, please check the file and try again"
+      );
       console.log(error);
     }
   };
@@ -46,6 +43,12 @@ const UploadParticipantsModal = ({ open, onClose }: Props) => {
       data.append("excel", file);
 
       uploadFile(data);
+
+      if (uploadButtonRef?.current !== null) {
+        uploadButtonRef.current.value = "";
+      }
+
+      onClose();
     }
   };
 

@@ -14,18 +14,22 @@ import ParticipantsTable from "./ParticipantsTable";
 import { Participant } from "../../../types/participants";
 import UploadParticipantsModal from "./UploadParticipantsModal";
 import { FormData } from "./CreateTest";
-import { useExtractParticipantsFromListMutation } from "../testApiSlice";
 
 type Props = {
   participants: Participant[];
+  setParticipants: React.Dispatch<React.SetStateAction<Participant[]>>;
   formData: FormData;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Settings = ({ formData, participants, handleChange }: Props) => {
+const Settings = ({
+  formData,
+  participants,
+  setParticipants,
+  handleChange,
+}: Props) => {
   const [checked, setChecked] = useState(["wifi"]);
   const [openUploadParticipants, setOpenUploadParticipants] = useState(false);
-  const [data, { isLoading }] = useExtractParticipantsFromListMutation();
 
   const handleToggle = (value: string) => () => {
     const currentIndex = checked.indexOf(value);
@@ -105,7 +109,7 @@ const Settings = ({ formData, participants, handleChange }: Props) => {
               />
             </Grid>
           </Grid>
-          <List
+          {/* <List
             sx={{
               width: "100%",
               bgcolor: "background.paper",
@@ -119,7 +123,7 @@ const Settings = ({ formData, participants, handleChange }: Props) => {
                 checked={checked.indexOf("wifi") !== -1}
               />
             </ListItem>
-          </List>
+          </List> */}
         </CardContent>
       </Card>
       <ParticipantsTable
@@ -129,6 +133,7 @@ const Settings = ({ formData, participants, handleChange }: Props) => {
       <UploadParticipantsModal
         open={openUploadParticipants}
         onClose={() => setOpenUploadParticipants(false)}
+        setParticipants={setParticipants}
       />
     </div>
   );

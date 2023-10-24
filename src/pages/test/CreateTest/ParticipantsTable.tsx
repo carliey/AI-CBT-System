@@ -18,9 +18,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import { Add } from "@mui/icons-material";
 import { Participant } from "../../../types/participants";
-import { useExtractParticipantsFromListMutation } from "../testApiSlice";
 
 interface Data {
+  id: string | number;
   name: string;
   email: string;
 }
@@ -76,6 +76,11 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
+    id: "id",
+    numeric: false,
+    label: "Id",
+  },
+  {
     id: "name",
     numeric: false,
     label: "Name",
@@ -117,12 +122,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-          />
+          /> */}
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -209,7 +214,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 
 interface ParticipantsTableProps {
-  rows: Participant[] | [];
+  rows: any[];
   setOpenUploadParticipants: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -220,7 +225,6 @@ export default function ParticipantsTable({
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Data>("name");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [data, { isLoading }] = useExtractParticipantsFromListMutation();
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -290,29 +294,30 @@ export default function ParticipantsTable({
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.name);
+                // const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.name)}
+                    // onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
-                    aria-checked={isItemSelected}
+                    // aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.name}
-                    selected={isItemSelected}
+                    // selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
+                      {/* <Checkbox
                         color="primary"
-                        checked={isItemSelected}
+                        // checked={isItemSelected}
                         inputProps={{
                           "aria-labelledby": labelId,
                         }}
-                      />
+                      /> */}
                     </TableCell>
-                    <TableCell id={labelId}>{row.name}</TableCell>
+                    <TableCell id={labelId}>{row.id}</TableCell>
+                    <TableCell>{row.name}</TableCell>
                     <TableCell>{row.email}</TableCell>
                   </TableRow>
                 );

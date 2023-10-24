@@ -1,5 +1,6 @@
-import { Box, Container, Paper, Typography } from "@mui/material";
+import { Box, Container, Paper } from "@mui/material";
 import { Outlet } from "react-router-dom";
+import ComputerIcon from "@mui/icons-material/Computer";
 
 const ParticipantLayout = () => {
   return (
@@ -12,7 +13,7 @@ const ParticipantLayout = () => {
         }}
         elevation={2}
       >
-        <Typography variant="h6">App Logo</Typography>
+        <ComputerIcon />
       </Paper>
       <Container
         maxWidth="lg"

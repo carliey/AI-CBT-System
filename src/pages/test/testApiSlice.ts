@@ -2,26 +2,13 @@ import { apiSlice } from "../../app/apiSlice";
 import { Test } from "../../types/test";
 
 const apiSliceWithTags = apiSlice.enhanceEndpoints({
-  addTagTypes: ["Quizes"],
+  addTagTypes: ["Quizzes"],
 });
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export const profileApiSlice = apiSliceWithTags.injectEndpoints({
+export const quizApiSlice = apiSliceWithTags.injectEndpoints({
   endpoints: (builder) => ({
-    getQuizes: builder.query<any, void>({
-      query: () => `/quiz`,
-      providesTags: ["Quizes"],
-    }),
-    createQuiz: builder.mutation<any, Test>({
-      query: (values) => ({
-        url: "/quiz",
-        method: "POST",
-        body: { ...values },
-      }),
-      invalidatesTags: ["Quizes"],
-    }),
-
     extractParticipantsFromList: builder.mutation<any, any>({
       query: (values) => ({
         url: "/extract-participants",
@@ -30,20 +17,73 @@ export const profileApiSlice = apiSliceWithTags.injectEndpoints({
       }),
     }),
 
-    updatePassword: builder.mutation<any, { password: string }>({
+    // Query to get all quizzes for the logged-in test administrator
+    getQuizzes: builder.query<Test[], void>({
+      query: () => "/api/quizzes",
+      providesTags: ["Quizzes"],
+    }),
+
+    // Query to get a quiz with its participant answers
+    getQuizWithAnswers: builder.query<any, number>({
+      query: (quizId) => `/api/quizzes/${quizId}`,
+    }),
+
+    // Mutation to create a new quiz
+    createQuiz: builder.mutation<any, Test>({
       query: (values) => ({
-        url: "/reset-password",
-        method: "PATCH",
+        url: "/api/quizzes",
+        method: "POST",
         body: { ...values },
       }),
-      invalidatesTags: ["Quizes"],
+      invalidatesTags: ["Quizzes"],
+    }),
+
+    // Mutation to update a quiz
+    updateQuiz: builder.mutation<Test, { quizId: number; quiz: Test }>({
+      query: ({ quizId, quiz }) => ({
+        url: `/api/quizzes/${quizId}`,
+        method: "PUT",
+        body: quiz,
+      }),
+      invalidatesTags: ["Quizzes"],
+    }),
+
+    // Mutation to publish a quiz
+    publishQuiz: builder.mutation<Test, number>({
+      query: (quizId) => ({
+        url: `/api/quizzes/${quizId}/publish`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Quizzes"],
+    }),
+
+    // Mutation to unpublish a quiz
+    unpublishQuiz: builder.mutation<Test, number>({
+      query: (quizId) => ({
+        url: `/api/quizzes/${quizId}/unpublish`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Quizzes"],
+    }),
+
+    // Mutation to delete a quiz
+    deleteQuiz: builder.mutation<void, number>({
+      query: (quizId) => ({
+        url: `/api/quizzes/${quizId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Quizzes"],
     }),
   }),
 });
 
 export const {
-  useGetQuizesQuery,
+  useGetQuizzesQuery,
+  useGetQuizWithAnswersQuery,
   useCreateQuizMutation,
-  useUpdatePasswordMutation,
+  useUpdateQuizMutation,
+  usePublishQuizMutation,
+  useUnpublishQuizMutation,
+  useDeleteQuizMutation,
   useExtractParticipantsFromListMutation,
-} = profileApiSlice;
+} = quizApiSlice;

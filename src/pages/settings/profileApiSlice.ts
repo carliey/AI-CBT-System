@@ -10,16 +10,19 @@ export const profileApiSlice = apiSliceWithTags.injectEndpoints({
   endpoints: (builder) => ({
     updateProfile: builder.mutation<any, { name?: string; about?: string }>({
       query: (values) => ({
-        url: "/update-profile",
-        method: "PATCH",
+        url: "/api/profile/update",
+        method: "PUT",
         body: { ...values },
       }),
       invalidatesTags: ["Profile"],
     }),
-    updatePassword: builder.mutation<any, { password: string }>({
+    updatePassword: builder.mutation<
+      any,
+      { old_password: string; new_password: string }
+    >({
       query: (values) => ({
-        url: "/reset-password",
-        method: "PATCH",
+        url: "/api/profile/update-password",
+        method: "PUT",
         body: { ...values },
       }),
       invalidatesTags: ["Profile"],

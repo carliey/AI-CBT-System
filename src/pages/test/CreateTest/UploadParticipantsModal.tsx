@@ -7,9 +7,9 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, useRef } from "react";
-import { useExtractParticipantsFromListMutation } from "../testApiSlice";
 import { toast } from "react-toastify";
 import { Participant } from "../../../types/participants";
+import { read, utils } from "xlsx";
 
 interface Props {
   open: boolean;
@@ -18,31 +18,23 @@ interface Props {
 }
 
 const UploadParticipantsModal = ({ open, onClose, setParticipants }: Props) => {
-  const [extractParticipants] = useExtractParticipantsFromListMutation();
-
   const uploadButtonRef = useRef<HTMLInputElement>(null);
-
-  const uploadFile = async (data: FormData) => {
-    try {
-      const response = await extractParticipants(data).unwrap();
-      setParticipants(response);
-      toast.success("participant data successfully extracted ");
-    } catch (error) {
-      toast.error(
-        "Failed to extract participant data, please check the file and try again"
-      );
-      console.log(error);
-    }
-  };
 
   const handleFilePicker = function (e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      console.log(file);
-      const data = new FormData();
-      data.append("excel", file);
-
-      uploadFile(data);
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const data = e.target.result;
+        const wb = read(data); // the the workbook
+        const ws = wb.Sheets[wb.SheetNames[0]]; // get the first worksheet
+        const res: Participant[] = utils.sheet_to_json(ws);
+        if (res) {
+          toast.success("Participant data successfully extracted");
+        }
+        console.log(res);
+        setParticipants(res);
+      };
+      reader.readAsArrayBuffer(e.target.files[0]);
 
       if (uploadButtonRef?.current !== null) {
         uploadButtonRef.current.value = "";

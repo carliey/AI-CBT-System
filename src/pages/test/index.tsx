@@ -5,14 +5,14 @@ import TabSwitcher from "../../components/TabSwitcher";
 import Completed from "./Completed";
 import Published from "./Published";
 import Unpublished from "./Unpublished";
-import { useGetQuizesQuery } from "./testApiSlice";
+import { useGetQuizzesQuery } from "./testApiSlice";
 
 const Tests = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = React.useState(0);
   const tabs = ["Completed", "Published", "Unpublished"];
 
-  const { data: quizes } = useGetQuizesQuery();
+  const { data: quizes } = useGetQuizzesQuery();
   console.log("quizes", quizes);
 
   return (

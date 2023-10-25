@@ -11,8 +11,8 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useUpdateProfileMutation } from "./profileApiSlice";
-import { useAppDispatch } from "../../app/hooks";
-import { setProfile } from "../auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectCurrentUser, setProfile } from "../auth/authSlice";
 
 interface Props {
   open: boolean;
@@ -25,12 +25,13 @@ const validationSchema = yup.object({
 });
 
 const UpdateProfileModal = ({ open, onClose }: Props) => {
+  const user = useAppSelector(selectCurrentUser);
   const dispatch = useAppDispatch();
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const formik = useFormik({
     initialValues: {
-      name: "",
-      about: "",
+      name: user?.name || "",
+      about: user?.about || "",
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
@@ -63,7 +64,7 @@ const UpdateProfileModal = ({ open, onClose }: Props) => {
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name && Boolean(formik.errors.name)}
-                helperText={formik.touched.name && formik.errors.name}
+                // helperText={formik.touched.name && formik.errors.name}
               />
             </Grid>
 
@@ -77,7 +78,7 @@ const UpdateProfileModal = ({ open, onClose }: Props) => {
                 value={formik.values.about}
                 onChange={formik.handleChange}
                 error={formik.touched.about && Boolean(formik.errors.about)}
-                helperText={formik.touched.about && formik.errors.about}
+                // helperText={formik?.touched?.about && formik?.errors?.about}
               />
             </Grid>
 

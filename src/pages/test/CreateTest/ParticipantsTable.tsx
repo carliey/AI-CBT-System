@@ -11,7 +11,6 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +20,7 @@ import { Participant } from "../../../types/participants";
 
 interface Data {
   id: string | number;
+  application_number?: string;
   name: string;
   email: string;
 }
@@ -84,6 +84,11 @@ const headCells: readonly HeadCell[] = [
     id: "name",
     numeric: false,
     label: "Name",
+  },
+  {
+    id: "application_number",
+    numeric: false,
+    label: "Application Number",
   },
   {
     id: "email",
@@ -318,6 +323,7 @@ export default function ParticipantsTable({
                     </TableCell>
                     <TableCell id={labelId}>{row.id}</TableCell>
                     <TableCell>{row.name}</TableCell>
+                    <TableCell>{row.application_number}</TableCell>
                     <TableCell>{row.email}</TableCell>
                   </TableRow>
                 );

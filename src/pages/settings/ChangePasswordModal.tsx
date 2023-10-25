@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useUpdatePasswordMutation } from "./profileApiSlice";
+import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -25,6 +27,8 @@ const validationSchema = yup.object({
 });
 
 const ChangePasswordModal = ({ open, onClose }: Props) => {
+  const [updatePassword, { isLoading: isUpdating }] =
+    useUpdatePasswordMutation();
   const formik = useFormik({
     initialValues: {
       old_password: "",
@@ -33,8 +37,18 @@ const ChangePasswordModal = ({ open, onClose }: Props) => {
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        const res = await updatePassword({
+          old_password: values.old_password,
+          new_password: values.confirm_new_password,
+        }).unwrap();
+        toast.success("password changed successfully");
+        onClose();
+      } catch (error) {
+        toast.error("something went wrong");
+        console.log(error);
+      }
     },
   });
 
@@ -42,7 +56,7 @@ const ChangePasswordModal = ({ open, onClose }: Props) => {
     <Dialog onClose={onClose} open={open} maxWidth="lg">
       <DialogTitle>Update Password</DialogTitle>
       <DialogContent>
-        <Box component="form">
+        <Box component="form" onSubmit={formik.handleSubmit}>
           <Grid container rowGap={2}>
             <Grid xs={12}>
               <TextField

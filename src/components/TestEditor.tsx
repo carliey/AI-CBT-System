@@ -7,11 +7,13 @@ import {
   Card,
   Grid,
   Input,
+  Paper,
   Radio,
   Stack,
   Typography,
 } from "@mui/material";
 import {
+  Check,
   ControlPoint,
   DeleteOutline,
   North,
@@ -20,6 +22,7 @@ import {
 } from "@mui/icons-material";
 import { Option, Question, Questions } from "../types/test";
 import GenerateQuestionsModal from "../pages/test/CreateTest/GenerateQuestionsModal";
+import { optionTitle } from "../data/optionTitle";
 
 interface Props {
   questions: Questions;
@@ -28,8 +31,6 @@ interface Props {
 }
 
 function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openAddBlock = Boolean(anchorEl);
   const [isDeletingBlock, setIsDeletingBlock] = useState(null);
   const [confirmation, setConfirmation] = useState<any>(null);
   const [targetBlock, setTargetBlock] = useState(null); // to target which block to add loading to
@@ -177,7 +178,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
       }}
     >
       <Box className="main-content">
-        {questions?.map((question: Question, index: number) => (
+        {/* {questions?.map((question: Question, index: number) => (
           <Card elevation={2} className="card" key={index}>
             <Box className="card-heading">
               <Typography className="title">Question {index + 1}.</Typography>
@@ -269,6 +270,7 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
                       <Radio
                         name="radio"
                         checked={option.is_correct}
+                        disabled
                         onChange={(e) =>
                           handleQuestionChange(e, {
                             question,
@@ -283,7 +285,40 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
               </Grid>
             </Box>
           </Card>
+        ))} */}
+
+        {questions.map((question: Question, index: number) => (
+          <Paper elevation={1} sx={{ p: 2, my: 2 }}>
+            <Typography sx={{ fontWeight: "bold" }}>
+              Question {index + 1}.
+            </Typography>
+            <Grid container columnSpacing={10} rowSpacing={2}>
+              <Grid item xs={12}>
+                <Typography>{question.text}</Typography>
+              </Grid>
+              {question.options.map((option: Option, i: number) => (
+                <Grid item xs={12} sm={6} key={i}>
+                  <Stack direction="row" alignItems="center">
+                    <Typography>{optionTitle[i]}. &nbsp; </Typography>
+                    <Typography
+                      sx={{
+                        borderBottom: "1px solid grey",
+                        minWidth: "100px",
+                      }}
+                    >
+                      {option.option}
+                    </Typography>
+                    {option.is_correct && (
+                      // <Radio name="radio" checked={option.is_correct} />
+                      <Check sx={{ color: "green" }} />
+                    )}
+                  </Stack>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
         ))}
+
         <Stack direction="row" width="100%" justifyContent={"space-between"}>
           <Button
             variant="outlined"

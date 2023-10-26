@@ -66,8 +66,7 @@ const ViewPublishedTest = () => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="subtitle1">
-              <span className="label"> Date:</span>{" "}
-              {new Date(test.datetime).toLocaleString()}
+              <span className="label"> Date:</span> {test.date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -87,20 +86,26 @@ const ViewPublishedTest = () => {
           <React.Fragment>
             <Table>
               <TableHead>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Application Number</TableCell>
                 <TableCell align="left">Email</TableCell>
               </TableHead>
               <TableBody>
                 {test.participants?.map((participant, index) => (
                   <TableRow key={index}>
+                    <TableCell align="left">{participant.name}</TableCell>
+                    <TableCell align="left">
+                      {participant.application_number}
+                    </TableCell>
                     <TableCell align="left">{participant.email}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-            <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
+            {/* <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
               <Button variant="outlined">PDF</Button>
               <Button variant="outlined">XLS</Button>
-            </Stack>
+            </Stack> */}
           </React.Fragment>
         )}
         {activeTab == 1 && (
@@ -112,7 +117,7 @@ const ViewPublishedTest = () => {
                 </Typography>
                 <Grid container columnSpacing={10} rowSpacing={2}>
                   <Grid item xs={12}>
-                    <Typography>{question.question}</Typography>
+                    <Typography>{question.text}</Typography>
                   </Grid>
                   {question.options.map((option: Option, i: number) => (
                     <Grid item xs={12} sm={6} key={i}>

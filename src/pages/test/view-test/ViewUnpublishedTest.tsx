@@ -66,8 +66,8 @@ const ViewUnpublishedTest = () => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="subtitle1">
-              <span className="label"> Date:</span>{" "}
-              {new Date(test.date).toLocaleString()}
+              <span className="label"> Date:</span>
+              {test.date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -87,20 +87,26 @@ const ViewUnpublishedTest = () => {
           <React.Fragment>
             <Table>
               <TableHead>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Application Number</TableCell>
                 <TableCell align="left">Email</TableCell>
               </TableHead>
               <TableBody>
                 {test.participants?.map((participant, index) => (
                   <TableRow key={index}>
+                    <TableCell align="left">{participant.name}</TableCell>
+                    <TableCell align="left">
+                      {participant.application_number}
+                    </TableCell>
                     <TableCell align="left">{participant.email}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-            <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
+            {/* <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
               <Button variant="outlined">PDF</Button>
               <Button variant="outlined">XLS</Button>
-            </Stack>
+            </Stack> */}
           </React.Fragment>
         )}
         {activeTab == 1 && (

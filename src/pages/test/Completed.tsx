@@ -1,13 +1,25 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { completedTests } from "../../data/tests";
-import { Test } from "../../types/test";
+import { Quiz, Test } from "../../types/test";
 import { useNavigate } from "react-router-dom";
 
-const Completed = () => {
+interface Props {
+  quizzes: Quiz[];
+}
+
+const Completed = ({ quizzes }: Props) => {
   const navigate = useNavigate();
+
+  if (!quizzes.length || quizzes.length === 0) {
+    return (
+      <div>
+        <h4>No result found</h4>
+      </div>
+    );
+  }
+
   return (
     <div>
-      {completedTests.map((test: Test, index) => (
+      {quizzes.map((test: Quiz, index) => (
         <Box
           key={index}
           sx={{
@@ -33,10 +45,10 @@ const Completed = () => {
               {test.title} {index === 0}
             </Typography>
             <Typography variant="subtitle1" flex={1}>
-              Participants: {test.results?.length}
+              Participants: {test.participants?.length}
             </Typography>
             <Typography variant="subtitle1" sx={{ width: "220px" }}>
-              Date: {new Date(test.date).toLocaleString()}
+              Date: {test.date}
             </Typography>
           </Stack>
         </Box>

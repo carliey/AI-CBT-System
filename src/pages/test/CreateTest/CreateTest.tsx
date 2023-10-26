@@ -62,7 +62,9 @@ const CreateTest = () => {
     try {
       const res = await createQuiz(testBody).unwrap();
       console.log(res);
-      toast.success("test created successfully");
+      if (res) {
+        toast.success("test created successfully");
+      }
     } catch (error) {
       toast.error("something went wrong");
       console.log(error);

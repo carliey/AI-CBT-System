@@ -33,6 +33,21 @@ export interface Test {
   results?: TestResult[];
   participants: Participant[];
 }
+
+export interface Quiz {
+  date: string;
+  description: string;
+  duration: number;
+  id: number;
+  instructions: string;
+  is_completed: boolean;
+  is_published: boolean;
+  participants: Participant[];
+  questions: Question[];
+  testAdministratorId?: number;
+  title: string;
+}
+
 export interface ParticipantTest {
   id?: number;
   title: string;

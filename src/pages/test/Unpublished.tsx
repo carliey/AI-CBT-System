@@ -1,9 +1,12 @@
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
-import { Test } from "../../types/test";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { Quiz } from "../../types/test";
 import { useNavigate } from "react-router-dom";
-import { pendingTests } from "../../data/tests";
 
-const Unpublished = () => {
+interface Props {
+  quizzes: Quiz[];
+}
+
+const Unpublished = ({ quizzes }: Props) => {
   const navigate = useNavigate();
 
   const handlePublish = (e: any) => {
@@ -11,9 +14,17 @@ const Unpublished = () => {
     console.log("handle unpublish");
   };
 
+  if (!quizzes.length || quizzes.length === 0) {
+    return (
+      <div>
+        <h4>No result found</h4>
+      </div>
+    );
+  }
+
   return (
     <div>
-      {pendingTests.map((test: Test, index) => (
+      {quizzes.map((test: Quiz, index) => (
         <Box key={index} sx={{ my: 3, p: 2, border: "2px solid #F5F5F5" }}>
           <Stack
             direction="row"
@@ -34,7 +45,7 @@ const Unpublished = () => {
               Participants: {test.participants?.length}
             </Typography>
             <Typography variant="subtitle1" sx={{ width: "220px" }}>
-              Date: {new Date(test.date).toLocaleString()}
+              Date: {test.date}
             </Typography>
             <Button variant="contained" onClick={handlePublish}>
               Publish

@@ -1,5 +1,5 @@
 import { apiSlice } from "../../app/apiSlice";
-import { Test } from "../../types/test";
+import { Quiz, Test } from "../../types/test";
 
 const apiSliceWithTags = apiSlice.enhanceEndpoints({
   addTagTypes: ["Quizzes"],
@@ -18,7 +18,7 @@ export const quizApiSlice = apiSliceWithTags.injectEndpoints({
     }),
 
     // Query to get all quizzes for the logged-in test administrator
-    getQuizzes: builder.query<Test[], void>({
+    getQuizzes: builder.query<any, void>({
       query: () => "/api/quizzes",
       providesTags: ["Quizzes"],
     }),

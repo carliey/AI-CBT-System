@@ -25,7 +25,7 @@ const ViewCompletedTest = () => {
   const test = location.state as Test;
 
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Results", "Questions"];
+  const tabs = ["Questions", "Participants", "Result"];
 
   return (
     <div>
@@ -84,32 +84,6 @@ const ViewCompletedTest = () => {
           tabs={tabs}
         />
         {activeTab == 0 && (
-          <React.Fragment>
-            <Table>
-              <TableHead>
-                <TableCell align="left">id</TableCell>
-                <TableCell>name</TableCell>
-                <TableCell>email</TableCell>
-                <TableCell>Score</TableCell>
-              </TableHead>
-              <TableBody>
-                {test.results?.map((result, resultIndex) => (
-                  <TableRow key={resultIndex}>
-                    <TableCell>001</TableCell>
-                    <TableCell>muhammed ladan</TableCell>
-                    <TableCell>{result.email}</TableCell>
-                    <TableCell>{result.score}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-            <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
-              <Button variant="outlined">PDF</Button>
-              <Button variant="outlined">XLS</Button>
-            </Stack>
-          </React.Fragment>
-        )}
-        {activeTab == 1 && (
           <Box>
             {test.questions.map((question: Question, index: number) => (
               <Paper elevation={1} sx={{ p: 2, my: 2 }}>
@@ -143,6 +117,58 @@ const ViewCompletedTest = () => {
               </Paper>
             ))}
           </Box>
+        )}
+        {activeTab == 1 && (
+          <React.Fragment>
+            <Table>
+              <TableHead>
+                <TableCell align="left">Name</TableCell>
+                <TableCell align="left">Application Number</TableCell>
+                <TableCell align="left">Email</TableCell>
+              </TableHead>
+              <TableBody>
+                {test.participants?.map((participant, index) => (
+                  <TableRow key={index}>
+                    <TableCell align="left">{participant.name}</TableCell>
+                    <TableCell align="left">
+                      {participant.application_number}
+                    </TableCell>
+                    <TableCell align="left">{participant.email}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            {/* <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
+              <Button variant="outlined">PDF</Button>
+              <Button variant="outlined">XLS</Button>
+            </Stack> */}
+          </React.Fragment>
+        )}
+        {activeTab == 2 && (
+          <React.Fragment>
+            <Table>
+              <TableHead>
+                <TableCell align="left">id</TableCell>
+                <TableCell>name</TableCell>
+                <TableCell>email</TableCell>
+                <TableCell>Score</TableCell>
+              </TableHead>
+              <TableBody>
+                {test.results?.map((result, resultIndex) => (
+                  <TableRow key={resultIndex}>
+                    <TableCell>001</TableCell>
+                    <TableCell>muhammed ladan</TableCell>
+                    <TableCell>{result.email}</TableCell>
+                    <TableCell>{result.score}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
+              <Button variant="outlined">PDF</Button>
+              <Button variant="outlined">XLS</Button>
+            </Stack>
+          </React.Fragment>
         )}
       </Paper>
     </div>

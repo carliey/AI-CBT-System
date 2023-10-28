@@ -26,7 +26,7 @@ const initialFormData: FormData = {
 
 const CreateTest = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Questions", "Settings"];
+  const tabs = ["Settings", "Questions"];
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [participants, setParticipants] = useState<Participant[]>([]);
@@ -41,15 +41,15 @@ const CreateTest = () => {
   };
 
   const [questions, setQuestions] = useState<Question[]>([
-    {
-      text: "",
-      options: [
-        { option: "", is_correct: false },
-        { option: "", is_correct: false },
-        { option: "", is_correct: false },
-        { option: "", is_correct: false },
-      ],
-    },
+    // {
+    //   text: "",
+    //   options: [
+    //     { option: "", is_correct: false },
+    //     { option: "", is_correct: false },
+    //     { option: "", is_correct: false },
+    //     { option: "", is_correct: false },
+    //   ],
+    // },
   ]);
 
   const handleSaveTest = async () => {
@@ -92,15 +92,15 @@ const CreateTest = () => {
         />
 
         {activeTab === 1 && (
+          <Questions questions={questions} setQuestions={setQuestions} />
+        )}
+        {activeTab === 0 && (
           <Settings
             formData={formData}
             handleChange={handleChange}
             participants={participants}
             setParticipants={setParticipants}
           />
-        )}
-        {activeTab === 0 && (
-          <Questions questions={questions} setQuestions={setQuestions} />
         )}
       </Container>
     </Box>

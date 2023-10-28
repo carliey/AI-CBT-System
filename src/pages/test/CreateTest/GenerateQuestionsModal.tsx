@@ -12,9 +12,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Document } from "../../../types/documents";
-import FilePickerModal from "../../../components/FilePickerModal";
+import { toast } from "react-toastify";
 
 interface Props {
   open: boolean;
@@ -22,12 +22,10 @@ interface Props {
 }
 
 const GenerateQuestionsModal = ({ open, onClose }: Props) => {
-  const [openFilePicker, setOpenFilePicker] = useState(false);
-  const [selectedDocument, setSelectedDocument] = useState<Document | null>(
-    null
-  );
+  const [selectedDocument, setSelectedDocument] = useState<any>(null);
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
   const [difficultyLevel, setDifficultyLevel] = useState("");
+  const uploadButtonRef = useRef<HTMLInputElement>(null);
 
   const handleClickGenerate = () => {
     if (selectedDocument && numberOfQuestions && difficultyLevel) {
@@ -37,32 +35,53 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
         difficultyLevel,
       });
     } else {
-      alert("Please select all fields");
+      toast.error("Please enter all fields");
     }
   };
 
-  const handleCloseFilePicker = () => {
-    setOpenFilePicker(false);
+  const uploadFile = async (data: FormData) => {
+    try {
+      //   const response = await addMedia(data).unwrap();
+      //   setSelectedDocument(response?.media[0]?.url); // automatically select file
+    } catch (error) {
+      alert({ status: "error", message: "Failed to upload media" });
+      console.log(error);
+    }
   };
+
+  const handleImagePickerChange = function (e: ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const data = new FormData();
+      data.append("file", file);
+      setSelectedDocument(file);
+      uploadFile(data);
+    }
+  };
+
   return (
     <Dialog onClose={onClose} open={open} maxWidth="lg">
-      <DialogTitle>Generate Questions</DialogTitle>
+      <DialogTitle sx={{ width: "400px" }}>Generate Questions</DialogTitle>
       <DialogContent>
         <Stack alignItems="center" gap={1} my={2}>
-          <Button onClick={() => setOpenFilePicker(true)} variant="outlined">
+          <input
+            style={{ display: "none" }}
+            type="file"
+            ref={uploadButtonRef}
+            onChange={handleImagePickerChange}
+            accept={"pdf"}
+          />
+          <Button
+            onClick={() => uploadButtonRef.current?.click()}
+            variant="outlined"
+          >
             Select Document
           </Button>
           {selectedDocument && (
             <Typography variant="caption">
-              Generate from: <strong>{selectedDocument.title}</strong>
+              Generate from: <strong>{selectedDocument.name}</strong>
             </Typography>
           )}
-          <FilePickerModal
-            selectedDocument={selectedDocument}
-            setSelectedDocument={setSelectedDocument}
-            handleClose={handleCloseFilePicker}
-            open={openFilePicker}
-          />
         </Stack>
         <Stack direction={"column"} gap={2} mb={2}>
           <FormControl>

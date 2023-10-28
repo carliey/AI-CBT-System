@@ -319,14 +319,14 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
           </Paper>
         ))}
 
-        <Stack direction="row" width="100%" justifyContent={"space-between"}>
-          <Button
+        <Stack direction="row" width="100%" justifyContent={"center"} my={4}>
+          {/* <Button
             variant="outlined"
             startIcon={<ControlPoint />}
             onClick={handleAddQuestion}
           >
             Add Question
-          </Button>
+          </Button> */}
           <Button
             variant="contained"
             startIcon={<SmartToy />}

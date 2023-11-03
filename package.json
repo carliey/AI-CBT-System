@@ -18,6 +18,8 @@
     "@reduxjs/toolkit": "^1.9.5",
     "convert-excel-to-json": "^1.7.0",
     "formik": "^2.4.2",
+    "mammoth": "^1.6.0",
+    "pdfjs-dist": "^3.11.174",
     "react": "^18.2.0",
     "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",

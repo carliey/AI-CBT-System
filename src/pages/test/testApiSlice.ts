@@ -17,6 +17,14 @@ export const quizApiSlice = apiSliceWithTags.injectEndpoints({
       }),
     }),
 
+    extractText: builder.mutation<any, any>({
+      query: (values) => ({
+        url: "/extract-text",
+        method: "POST",
+        body: values,
+      }),
+    }),
+
     // Query to get all quizzes for the logged-in test administrator
     getQuizzes: builder.query<any, void>({
       query: () => "/api/quizzes",
@@ -86,4 +94,5 @@ export const {
   useUnpublishQuizMutation,
   useDeleteQuizMutation,
   useExtractParticipantsFromListMutation,
+  useExtractTextMutation,
 } = quizApiSlice;

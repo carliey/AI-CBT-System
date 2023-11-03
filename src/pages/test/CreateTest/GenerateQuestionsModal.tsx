@@ -15,6 +15,7 @@ import {
 import { ChangeEvent, useRef, useState } from "react";
 import { Document } from "../../../types/documents";
 import { toast } from "react-toastify";
+import { useExtractTextMutation } from "../testApiSlice";
 
 interface Props {
   open: boolean;
@@ -26,6 +27,7 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
   const [difficultyLevel, setDifficultyLevel] = useState("");
   const uploadButtonRef = useRef<HTMLInputElement>(null);
+  const [extractText] = useExtractTextMutation();
 
   const handleClickGenerate = () => {
     if (selectedDocument && numberOfQuestions && difficultyLevel) {
@@ -35,27 +37,64 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
         difficultyLevel,
       });
     } else {
-      toast.error("Please enter all fields");
+      toast.error("Please all fields");
     }
   };
 
   const uploadFile = async (data: FormData) => {
     try {
-      //   const response = await addMedia(data).unwrap();
-      //   setSelectedDocument(response?.media[0]?.url); // automatically select file
+      // const base_url = import.meta.env.VITE_API_URL;
+
+      // console.log(base_url);
+      // const response = await fetch(`http://localhost:5051/extract-text`, {
+      //   method: "POST",
+      //   body: data,
+      // });
+
+      // if (response.ok) {
+      //   const result = await response.text();
+      //   console.log("File uploaded:", result);
+      //   // Handle the response as needed
+      // } else {
+      //   throw new Error("Failed to upload the file");
+      // }
+      const res = await extractText(data).unwrap();
+      console.log(res.text);
+      toast.success("Text extracted successfully");
     } catch (error) {
-      alert({ status: "error", message: "Failed to upload media" });
+      toast.error("failed to upload media");
       console.log(error);
     }
   };
 
+  // const reader = new FileReader();
+
+  // reader.onload = async (event: any) => {
+  //   const fileBuffer = event.target.result;
+
+  //   if (file.type === "application/pdf") {
+  //     const pdf = await pdfjs.getDocument({ data: fileBuffer }).promise;
+  //     const pdfText = await getPageText(pdf);
+  //     console.log("PDF Text:", pdfText);
+  //   } else if (
+  //     file.type ===
+  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  //   ) {
+  //     const mammothResult = await mammoth.extractRawText({
+  //       arrayBuffer: fileBuffer,
+  //     });
+  //     const wordText = mammothResult.value;
+  //     console.log("Word Text:", wordText);
+  //   }
+  // };
+
   const handleImagePickerChange = function (e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      const data = new FormData();
-      data.append("file", file);
+      const formData = new FormData();
+      formData.append("file", file);
       setSelectedDocument(file);
-      uploadFile(data);
+      uploadFile(formData);
     }
   };
 

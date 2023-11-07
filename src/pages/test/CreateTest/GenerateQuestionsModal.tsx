@@ -1,5 +1,6 @@
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -13,29 +14,41 @@ import {
   Typography,
 } from "@mui/material";
 import { ChangeEvent, useRef, useState } from "react";
-import { Document } from "../../../types/documents";
 import { toast } from "react-toastify";
-import { useExtractTextMutation } from "../testApiSlice";
+import {
+  useExtractTextMutation,
+  useGenerateQuestionsMutation,
+} from "../testApiSlice";
+import { Question } from "../../../types/test";
 
 interface Props {
   open: boolean;
-  onClose: () => void;
+  handleClose: () => void;
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
-const GenerateQuestionsModal = ({ open, onClose }: Props) => {
+const GenerateQuestionsModal = ({ open, handleClose, setQuestions }: Props) => {
   const [selectedDocument, setSelectedDocument] = useState<any>(null);
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
   const [difficultyLevel, setDifficultyLevel] = useState("");
+  const [extractedText, setExtractedText] = useState("");
   const uploadButtonRef = useRef<HTMLInputElement>(null);
   const [extractText] = useExtractTextMutation();
+  const [generateQuestions, { isLoading: isGeneratingQuestions }] =
+    useGenerateQuestionsMutation();
 
-  const handleClickGenerate = () => {
+  const handleClickGenerate = async () => {
     if (selectedDocument && numberOfQuestions && difficultyLevel) {
-      console.log({
-        selectedDocument,
-        numberOfQuestions,
-        difficultyLevel,
-      });
+      const body = {
+        text: extractedText,
+        number_of_questions: numberOfQuestions,
+        difficulty_level: parseInt(difficultyLevel),
+      };
+
+      const result = await generateQuestions(body).unwrap();
+      setQuestions(result.data);
+      handleClose();
+      console.log(result);
     } else {
       toast.error("Please all fields");
     }
@@ -43,50 +56,14 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
 
   const uploadFile = async (data: FormData) => {
     try {
-      // const base_url = import.meta.env.VITE_API_URL;
-
-      // console.log(base_url);
-      // const response = await fetch(`http://localhost:5051/extract-text`, {
-      //   method: "POST",
-      //   body: data,
-      // });
-
-      // if (response.ok) {
-      //   const result = await response.text();
-      //   console.log("File uploaded:", result);
-      //   // Handle the response as needed
-      // } else {
-      //   throw new Error("Failed to upload the file");
-      // }
       const res = await extractText(data).unwrap();
-      console.log(res.text);
       toast.success("Text extracted successfully");
+      setExtractedText(res.text);
     } catch (error) {
-      toast.error("failed to upload media");
+      toast.error("failed to upload media, please try again");
       console.log(error);
     }
   };
-
-  // const reader = new FileReader();
-
-  // reader.onload = async (event: any) => {
-  //   const fileBuffer = event.target.result;
-
-  //   if (file.type === "application/pdf") {
-  //     const pdf = await pdfjs.getDocument({ data: fileBuffer }).promise;
-  //     const pdfText = await getPageText(pdf);
-  //     console.log("PDF Text:", pdfText);
-  //   } else if (
-  //     file.type ===
-  //     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  //   ) {
-  //     const mammothResult = await mammoth.extractRawText({
-  //       arrayBuffer: fileBuffer,
-  //     });
-  //     const wordText = mammothResult.value;
-  //     console.log("Word Text:", wordText);
-  //   }
-  // };
 
   const handleImagePickerChange = function (e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files[0]) {
@@ -99,7 +76,7 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
   };
 
   return (
-    <Dialog onClose={onClose} open={open} maxWidth="lg">
+    <Dialog onClose={handleClose} open={open} maxWidth="lg">
       <DialogTitle sx={{ width: "400px" }}>Generate Questions</DialogTitle>
       <DialogContent>
         <Stack alignItems="center" gap={1} my={2}>
@@ -158,8 +135,9 @@ const GenerateQuestionsModal = ({ open, onClose }: Props) => {
           color="success"
           fullWidth
           onClick={handleClickGenerate}
+          disabled={isGeneratingQuestions}
         >
-          Generate
+          {isGeneratingQuestions ? <CircularProgress /> : "Generate"}
         </Button>
       </DialogContent>
     </Dialog>

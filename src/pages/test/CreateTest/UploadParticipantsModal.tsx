@@ -31,8 +31,13 @@ const UploadParticipantsModal = ({ open, onClose, setParticipants }: Props) => {
         if (res) {
           toast.success("Participant data successfully extracted");
         }
-        console.log(res);
-        setParticipants(res);
+        setParticipants(
+          res.map((participant) => ({
+            name: participant.name,
+            application_number: participant.application_number,
+            email: participant.email,
+          }))
+        );
       };
       reader.readAsArrayBuffer(e.target.files[0]);
 

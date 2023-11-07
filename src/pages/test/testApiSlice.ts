@@ -25,6 +25,17 @@ export const quizApiSlice = apiSliceWithTags.injectEndpoints({
       }),
     }),
 
+    generateQuestions: builder.mutation<
+      any,
+      { text: string; number_of_questions: number; difficulty_level: number }
+    >({
+      query: (values) => ({
+        url: "/api/generate-questions",
+        method: "POST",
+        body: { ...values },
+      }),
+    }),
+
     // Query to get all quizzes for the logged-in test administrator
     getQuizzes: builder.query<any, void>({
       query: () => "/api/quizzes",
@@ -95,4 +106,5 @@ export const {
   useDeleteQuizMutation,
   useExtractParticipantsFromListMutation,
   useExtractTextMutation,
+  useGenerateQuestionsMutation,
 } = quizApiSlice;

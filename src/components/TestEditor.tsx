@@ -1,27 +1,7 @@
-import { useState } from "react";
 import React from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Card,
-  Grid,
-  Input,
-  Paper,
-  Radio,
-  Stack,
-  Typography,
-} from "@mui/material";
-import {
-  Check,
-  ControlPoint,
-  DeleteOutline,
-  North,
-  SmartToy,
-  South,
-} from "@mui/icons-material";
+import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Check } from "@mui/icons-material";
 import { Option, Question, Questions } from "../types/test";
-import GenerateQuestionsModal from "../pages/test/CreateTest/GenerateQuestionsModal";
 import { optionTitle } from "../data/optionTitle";
 
 interface Props {
@@ -30,108 +10,112 @@ interface Props {
   deleteQuestion?: () => void;
 }
 
-function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
-  const [isDeletingBlock, setIsDeletingBlock] = useState(null);
-  const [confirmation, setConfirmation] = useState<any>(null);
-  const [targetBlock, setTargetBlock] = useState(null); // to target which block to add loading to
-  const [openGenerator, setOpenGenerator] = useState(false);
+function TestEditor({
+  questions,
+}: // setQuestions,
+// deleteQuestion
+Props) {
+  // const [isDeletingBlock, setIsDeletingBlock] = useState(null);
+  // const [confirmation, setConfirmation] = useState<any>(null);
+  // const [targetBlock, setTargetBlock] = useState(null); // to target which block to add loading to
+  // const [openGenerator, setOpenGenerator] = useState(false);
 
-  const handleAddQuestion = () => {
-    setQuestions((prev: Questions) => [
-      ...prev,
-      {
-        text: "",
-        options: [
-          { option: "", is_correct: false },
-          { option: "", is_correct: false },
-          { option: "", is_correct: false },
-          { option: "", is_correct: false },
-        ],
-      },
-    ]);
-  };
+  // const handleAddQuestion = () => {
+  //   setQuestions((prev: Questions) => [
+  //     ...prev,
+  //     {
+  //       text: "",
+  //       options: [
+  //         { option: "", is_correct: false },
+  //         { option: "", is_correct: false },
+  //         { option: "", is_correct: false },
+  //         { option: "", is_correct: false },
+  //       ],
+  //     },
+  //   ]);
+  // };
 
-  const handleMoveUp = (index: number, item: Question) => {
-    const newQuestions = questions;
-    newQuestions.splice(index, 1);
-    newQuestions.splice(index - 1, 0, item);
-    setQuestions([...newQuestions]);
-  };
+  // const handleMoveUp = (index: number, item: Question) => {
+  //   const newQuestions = questions;
+  //   newQuestions.splice(index, 1);
+  //   newQuestions.splice(index - 1, 0, item);
+  //   setQuestions([...newQuestions]);
+  // };
 
-  const handleMoveDown = (index: number, item: Question) => {
-    const newQuestions = questions;
-    newQuestions.splice(index, 1);
-    newQuestions.splice(index + 1, 0, item);
-    setQuestions([...newQuestions]);
-  };
+  // const handleMoveDown = (index: number, item: Question) => {
+  //   const newQuestions = questions;
+  //   newQuestions.splice(index, 1);
+  //   newQuestions.splice(index + 1, 0, item);
+  //   setQuestions([...newQuestions]);
+  // };
 
-  const handleDeleteQuestion = async (index: number) => {
-    if (questions[index]?.id) {
-      // if it has id, it remove from endpoint
-      //   let isDeleted = await deleteBlock(questions[index]);
-      const isDeleted = true;
-      if (isDeleted) {
-        // remove from array
-        const newQuestions = questions;
-        newQuestions.splice(index, 1);
-        setQuestions([...newQuestions]);
-      }
-    } else {
-      // remove from array
-      const newQuestions = questions;
-      newQuestions.splice(index, 1);
-      setQuestions([...newQuestions]);
-    }
-  };
+  // const handleDeleteQuestion = async (index: number) => {
+  //   if (questions[index]?.id) {
+  //     // if it has id, it remove from endpoint
+  //     //   let isDeleted = await deleteBlock(questions[index]);
+  //     const isDeleted = true;
+  //     if (isDeleted) {
+  //       // remove from array
+  //       const newQuestions = questions;
+  //       newQuestions.splice(index, 1);
+  //       setQuestions([...newQuestions]);
+  //     }
+  //   } else {
+  //     // remove from array
+  //     const newQuestions = questions;
+  //     newQuestions.splice(index, 1);
+  //     setQuestions([...newQuestions]);
+  //   }
+  // };
 
-  const handleQuestionChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    param: { question: Question; questionIndex: number; optionIndex?: number }
-  ) => {
-    const { name, value } = e.target;
-    const { question, questionIndex, optionIndex } = param;
+  // const handleQuestionChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  //   param: { question: Question; questionIndex: number; optionIndex?: number }
+  // ) => {
+  //   const { name, value } = e.target;
+  //   const { question, questionIndex, optionIndex } = param;
 
-    let newQuestion;
-    if (name === "question") {
-      newQuestion = {
-        ...question,
-        text: value,
-      };
-    }
+  //   let newQuestion;
+  //   if (name === "question") {
+  //     newQuestion = {
+  //       ...question,
+  //       text: value,
+  //     };
+  //   }
 
-    if (name === "option" && optionIndex !== undefined) {
-      const options = question.options; //create a copy of the options array
-      const newOption = options[optionIndex]; //get the prev state of target option
+  //   if (name === "option" && optionIndex !== undefined) {
+  //     const options = question.options; //create a copy of the options array
+  //     const newOption = options[optionIndex]; //get the prev state of target option
 
-      options[optionIndex] = { ...newOption, option: value }; // spread the prev state and append the change
+  //     options[optionIndex] = { ...newOption, option: value }; // spread the prev state and append the change
 
-      newQuestion = {
-        ...question,
-        options: options,
-      };
-      //also append the change in the new question object
-    }
+  //     newQuestion = {
+  //       ...question,
+  //       options: options,
+  //     };
+  //     //also append the change in the new question object
+  //   }
 
-    if (name === "radio" && optionIndex !== undefined) {
-      const options = question.options.map((option, index) => ({
-        ...option,
-        is_correct: index === optionIndex,
-      }));
+  //   if (name === "radio" && optionIndex !== undefined) {
+  //     const options = question.options.map((option, index) => ({
+  //       ...option,
+  //       is_correct: index === optionIndex,
+  //     }));
 
-      newQuestion = {
-        ...question,
-        options: options,
-      };
-    }
+  //     newQuestion = {
+  //       ...question,
+  //       options: options,
+  //     };
+  //   }
 
-    const copy = questions; //create a copy of the questions state
-    if (newQuestion !== undefined) {
-      // check if new question has been assigned
-      copy[questionIndex] = newQuestion; // make changes to the copied array
-    }
+  //   const copy = questions; //create a copy of the questions state
+  //   if (newQuestion !== undefined) {
+  //     // check if new question has been assigned
+  //     copy[questionIndex] = newQuestion; // make changes to the copied array
+  //   }
 
-    setQuestions([...copy]);
-  };
+  //   setQuestions([...copy]);
+  // };
 
   return (
     <Box
@@ -318,27 +302,6 @@ function TestEditor({ questions, setQuestions, deleteQuestion }: Props) {
             </Grid>
           </Paper>
         ))}
-
-        <Stack direction="row" width="100%" justifyContent={"center"} my={4}>
-          {/* <Button
-            variant="outlined"
-            startIcon={<ControlPoint />}
-            onClick={handleAddQuestion}
-          >
-            Add Question
-          </Button> */}
-          <Button
-            variant="contained"
-            startIcon={<SmartToy />}
-            onClick={() => setOpenGenerator(true)}
-          >
-            Generate
-          </Button>
-          <GenerateQuestionsModal
-            open={openGenerator}
-            onClose={() => setOpenGenerator(false)}
-          />
-        </Stack>
       </Box>
     </Box>
   );

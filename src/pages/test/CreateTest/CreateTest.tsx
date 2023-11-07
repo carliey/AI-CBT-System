@@ -7,6 +7,7 @@ import Questions from "./Questions";
 import { useCreateQuizMutation } from "../testApiSlice";
 import { toast } from "react-toastify";
 import { Participant } from "../../../types/participants";
+import { useNavigate } from "react-router-dom";
 
 export interface FormData {
   title: string;
@@ -25,6 +26,7 @@ const initialFormData: FormData = {
 };
 
 const CreateTest = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Settings", "Questions"];
 
@@ -59,17 +61,39 @@ const CreateTest = () => {
       participants: participants,
     };
 
+    //validation
+    if (!formData.title) {
+      return toast.error("Please enter title");
+    }
+    if (!formData.description) {
+      return toast.error("Please enter description");
+    }
+    if (!formData.instructions) {
+      return toast.error("Please enter instructions");
+    }
+    if (!formData.duration) {
+      return toast.error("Please enter duration");
+    }
+    if (!formData.date) {
+      return toast.error("Please select date");
+    }
+    if (!participants || participants.length < 1) {
+      return toast.error("please add participants");
+    }
+    if (!questions || questions.length < 1) {
+      return toast.error("please generate questions");
+    }
+
     try {
       const res = await createQuiz(testBody).unwrap();
-      console.log(res);
       if (res) {
         toast.success("test created successfully");
+        navigate(-1);
       }
     } catch (error) {
       toast.error("something went wrong");
       console.log(error);
     }
-    console.log(testBody);
   };
 
   return (
@@ -80,6 +104,7 @@ const CreateTest = () => {
         sx={{ position: "sticky", top: 10 }}
       >
         <Typography variant="h6">Create Test</Typography>
+
         <Button variant="contained" onClick={handleSaveTest}>
           Save
         </Button>

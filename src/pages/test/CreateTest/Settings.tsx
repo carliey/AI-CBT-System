@@ -28,21 +28,21 @@ const Settings = ({
   setParticipants,
   handleChange,
 }: Props) => {
-  const [checked, setChecked] = useState(["wifi"]);
+  // const [checked, setChecked] = useState(["wifi"]);
   const [openUploadParticipants, setOpenUploadParticipants] = useState(false);
 
-  const handleToggle = (value: string) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+  // const handleToggle = (value: string) => () => {
+  //   const currentIndex = checked.indexOf(value);
+  //   const newChecked = [...checked];
 
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
+  //   if (currentIndex === -1) {
+  //     newChecked.push(value);
+  //   } else {
+  //     newChecked.splice(currentIndex, 1);
+  //   }
 
-    setChecked(newChecked);
-  };
+  //   setChecked(newChecked);
+  // };
 
   return (
     <div>

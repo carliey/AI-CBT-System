@@ -58,7 +58,7 @@ const Router = () => {
     <Routes>
       <Route element={<ParticipantLayout />}>
         {/* participant layout  */}
-        <Route path="/test/:id/" element={<Quiz />} />
+        <Route path="/quiz/:quiz_id/:participant_id" element={<Quiz />} />
         <Route path="/quiz-complete" element={<QuizComplete />} />
       </Route>
 

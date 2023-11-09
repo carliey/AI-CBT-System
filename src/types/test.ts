@@ -45,6 +45,7 @@ export interface Quiz {
   participants: Participant[];
   questions: Question[];
   testAdministratorId?: number;
+  TestAdministrator?: TestAdministrator;
   title: string;
 }
 
@@ -61,4 +62,25 @@ export interface ParticipantTest {
     name: string;
     id?: string;
   };
+}
+
+export interface QuizData {
+  data: {
+    id: number;
+    application_number: string;
+    name: string;
+    email: string;
+    quizId: number;
+    Quiz: Quiz;
+  };
+  message: string;
+}
+
+interface TestAdministrator {
+  id: number;
+  created_at: string;
+  email: string;
+  name: string;
+  password: string;
+  about: string;
 }

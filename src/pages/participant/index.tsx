@@ -1,10 +1,30 @@
-import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  Paper,
+  Typography,
+  capitalize,
+} from "@mui/material";
 import { useState } from "react";
 import QuizPage from "./QuizPage";
 import { participantTest } from "../../data/tests";
-import Countdown from "react-countdown";
+import { useGetQuizQuery } from "./participantApiSlice";
+import { useParams } from "react-router-dom";
 
 const Quiz = () => {
+  const { quiz_id, participant_id } = useParams();
+
+  const participant = parseInt(participant_id || "");
+  const quiz = parseInt(quiz_id || "");
+
+  const { data: quizData } = useGetQuizQuery({
+    participant_id: participant,
+    quiz_id: quiz,
+  });
+
+  console.log("hello", quizData);
+
   const [hasStarted, setHasStarted] = useState(false);
 
   const handleStartTest = () => {
@@ -25,29 +45,30 @@ const Quiz = () => {
             Welcome
           </Typography>
           <Typography variant="h5" paragraph>
-            You are participating in the FRSC - Marshal Inspectors Basic course
-            test 2023.
+            You are participating in the{" "}
+            {quizData?.data.Quiz.TestAdministrator?.name} -{" "}
+            {quizData?.data.Quiz.title}.
           </Typography>
           <Typography variant="body1" paragraph>
             Please read carefully before you proceed.
           </Typography>
 
           <Typography variant="body1" paragraph>
-            {currentTest.description}
+            {quizData?.data.Quiz.description}
           </Typography>
           <Typography variant="body1" paragraph>
-            {currentTest.instructions}
+            {quizData?.data.Quiz.instructions}
           </Typography>
           <Typography variant="body1" paragraph>
             <strong>Duration: </strong>
-            {currentTest.duration} minutes
+            {quizData?.data.Quiz.duration} minutes
           </Typography>
           <Typography variant="body1" paragraph>
             <strong>Date: </strong>
-            {currentTest.datetime}
+            {quizData?.data.Quiz.date}
           </Typography>
 
-          <Typography variant="h6">Test Instructions:</Typography>
+          <Typography variant="h6">General Instructions:</Typography>
           <Box
             component="ul"
             sx={{
@@ -88,14 +109,18 @@ const Quiz = () => {
       {/* User Information and Start Button Section */}
       <Grid item xs={12} md={4}>
         <Paper elevation={3} style={{ padding: "1.5rem" }}>
-          <Typography variant="body1" paragraph>
-            <strong>Full Name:</strong> {currentTest.participant.name}
+          <Typography
+            variant="body1"
+            paragraph
+            sx={{ textTransform: "capitalize" }}
+          >
+            <strong>Full Name:</strong> {quizData?.data.name}
           </Typography>
           <Typography variant="body1" paragraph>
-            <strong>Email:</strong> {currentTest.participant.email}
+            <strong>Email:</strong> {quizData?.data.email}
           </Typography>
           <Typography variant="body1" paragraph>
-            <strong>ID:</strong> 001
+            <strong>Application no:</strong> {quizData?.data.application_number}
           </Typography>
           <Button
             variant="contained"

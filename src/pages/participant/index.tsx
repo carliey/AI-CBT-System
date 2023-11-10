@@ -1,20 +1,11 @@
-import {
-  Box,
-  Button,
-  Grid,
-  Paper,
-  Typography,
-  capitalize,
-} from "@mui/material";
+import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import QuizPage from "./QuizPage";
-import { participantTest } from "../../data/tests";
 import { useGetQuizQuery } from "./participantApiSlice";
 import { useParams } from "react-router-dom";
 
 const Quiz = () => {
   const { quiz_id, participant_id } = useParams();
-
   const participant = parseInt(participant_id || "");
   const quiz = parseInt(quiz_id || "");
 
@@ -32,10 +23,12 @@ const Quiz = () => {
     setHasStarted(true);
   };
 
-  const currentTest = participantTest;
+  if (!quizData) {
+    return <h1>Something went wrong, unable to fetch quiz</h1>;
+  }
 
   return hasStarted ? (
-    <QuizPage test={currentTest} />
+    <QuizPage test={quizData?.data.Quiz} />
   ) : (
     <Grid container spacing={5}>
       {/* Welcome and Test Instructions Section */}
@@ -101,7 +94,7 @@ const Quiz = () => {
             <li>Read the questions carefully and select your answer.</li>
           </Box>
           <Typography align="center" fontWeight={600}>
-            Good luck with your test!
+            Good luck on your test!
           </Typography>
         </Paper>
       </Grid>

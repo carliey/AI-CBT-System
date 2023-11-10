@@ -8,12 +8,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { Option, ParticipantTest } from "../../types/test";
+import { Option, Quiz } from "../../types/test";
 import Countdown from "react-countdown";
 import { useNavigate } from "react-router-dom";
 
 interface QuizPageProps {
-  test: ParticipantTest;
+  test: Quiz;
 }
 
 function QuizPage({ test }: QuizPageProps) {
@@ -25,7 +25,7 @@ function QuizPage({ test }: QuizPageProps) {
     if (storedCountdown) {
       return parseInt(storedCountdown);
     }
-    return parseInt(test.duration) * 60 * 1000;
+    return test.duration * 60 * 1000;
   });
 
   const [responses, setResponses] = useState(
@@ -120,10 +120,10 @@ function QuizPage({ test }: QuizPageProps) {
         </Box>
         <Box>
           <Typography variant="body1" my={2}>
-            {question.question}
+            {question.text}
           </Typography>
           <Grid container columnSpacing={10} rowSpacing={2}>
-            {question.options.map((option: Option, optionIndex) => (
+            {question?.options?.map((option: Option, optionIndex) => (
               <Grid item xs={12} sm={6} key={optionIndex}>
                 <Stack direction="row" alignItems="center">
                   <Radio

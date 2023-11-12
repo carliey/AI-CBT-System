@@ -1,5 +1,5 @@
 import { apiSlice } from "../../app/apiSlice";
-import { Quiz, QuizData, Test } from "../../types/test";
+import { QuizData } from "../../types/test";
 
 const apiSliceWithTags = apiSlice.enhanceEndpoints({
   addTagTypes: ["Quiz"],
@@ -20,9 +20,17 @@ export const participantApiSlice = apiSliceWithTags.injectEndpoints({
     }),
 
     // Mutation to create a new quiz
-    createQuiz: builder.mutation<any, Test>({
+    submitAnswer: builder.mutation<
+      any,
+      {
+        questionId: number | undefined;
+        optionId: number | undefined;
+        quizId: number;
+        participantId: number;
+      }
+    >({
       query: (values) => ({
-        url: "/quizzes",
+        url: "/quiz/answer",
         method: "POST",
         body: { ...values },
       }),
@@ -31,4 +39,4 @@ export const participantApiSlice = apiSliceWithTags.injectEndpoints({
   }),
 });
 
-export const { useGetQuizQuery } = participantApiSlice;
+export const { useGetQuizQuery, useSubmitAnswerMutation } = participantApiSlice;

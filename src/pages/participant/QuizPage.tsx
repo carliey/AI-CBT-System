@@ -11,13 +11,17 @@ import {
 import { Option, Quiz } from "../../types/test";
 import Countdown from "react-countdown";
 import { useNavigate } from "react-router-dom";
+import { useSubmitAnswerMutation } from "./participantApiSlice";
+import { toast } from "react-toastify";
 
 interface QuizPageProps {
   test: Quiz;
+  participant_id: number;
 }
 
-function QuizPage({ test }: QuizPageProps) {
+function QuizPage({ test, participant_id }: QuizPageProps) {
   const navigate = useNavigate();
+  const [submitAnswer] = useSubmitAnswerMutation();
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const [timeLeft, setTimeLeft] = useState(() => {
@@ -28,14 +32,46 @@ function QuizPage({ test }: QuizPageProps) {
     return test.duration * 60 * 1000;
   });
 
-  const [responses, setResponses] = useState(
-    Array(test.questions.length).fill("")
-  );
+  const [responses, setResponses] = useState<
+    { questionId: number; option_id: number }[]
+  >([]);
 
-  const handleResponseChange = (index: number, value: string) => {
-    const newResponses = [...responses];
-    newResponses[index] = value;
-    setResponses(newResponses);
+  const handleResponseChange = async (
+    questionId: number | undefined,
+    optionId: number | undefined
+  ) => {
+    const body = {
+      quizId: test.id,
+      participantId: participant_id,
+      questionId: question.id,
+      optionId: optionId,
+    };
+    try {
+      await submitAnswer(body).unwrap();
+
+      const existingResponse = responses.find(
+        (response) => response.questionId === questionId
+      );
+
+      if (existingResponse) {
+        // If a response for the current question already exists, update it
+        const updatedResponses = responses.map((response) =>
+          response.questionId === questionId
+            ? { questionId: questionId!, option_id: optionId! }
+            : response
+        );
+        setResponses(updatedResponses);
+      } else {
+        // If no response for the current question exists, add a new one
+        setResponses([
+          ...responses,
+          { questionId: questionId!, option_id: optionId! },
+        ]);
+      }
+    } catch (error) {
+      toast.error("error");
+      console.log(error);
+    }
   };
 
   const handleNextQuestion = () => {
@@ -128,9 +164,15 @@ function QuizPage({ test }: QuizPageProps) {
                 <Stack direction="row" alignItems="center">
                   <Radio
                     name={`question-${currentQuestion}`}
-                    checked={responses[currentQuestion] === option.option}
+                    checked={
+                      !!responses.find(
+                        (response) =>
+                          response.questionId === question.id &&
+                          response.option_id === option.id
+                      )
+                    }
                     onChange={() =>
-                      handleResponseChange(currentQuestion, option.option)
+                      handleResponseChange(question.id, option.id)
                     }
                   />
                   <Typography variant="body2">{option.option}</Typography>

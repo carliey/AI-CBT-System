@@ -28,7 +28,7 @@ const Quiz = () => {
   }
 
   return hasStarted ? (
-    <QuizPage test={quizData?.data.Quiz} />
+    <QuizPage test={quizData?.data.Quiz} participant_id={participant} />
   ) : (
     <Grid container spacing={5}>
       {/* Welcome and Test Instructions Section */}
@@ -40,7 +40,7 @@ const Quiz = () => {
           <Typography variant="h5" paragraph>
             You are participating in the{" "}
             {quizData?.data.Quiz.TestAdministrator?.name} -{" "}
-            {quizData?.data.Quiz.title}.
+            {quizData?.data.Quiz.title} exams.
           </Typography>
           <Typography variant="body1" paragraph>
             Please read carefully before you proceed.
@@ -51,6 +51,10 @@ const Quiz = () => {
           </Typography>
           <Typography variant="body1" paragraph>
             {quizData?.data.Quiz.instructions}
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <strong>Number of questions: </strong>
+            {quizData?.data.Quiz.questions.length}
           </Typography>
           <Typography variant="body1" paragraph>
             <strong>Duration: </strong>

@@ -31,7 +31,7 @@ const Tests = () => {
 
   const completed = useMemo(() => {
     return (
-      quizzes?.data?.filter((quiz: Quiz) => quiz.is_completed !== true) || []
+      quizzes?.data?.filter((quiz: Quiz) => quiz.is_completed === true) || []
     );
   }, [quizzes]);
 

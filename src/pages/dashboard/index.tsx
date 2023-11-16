@@ -1,4 +1,6 @@
 import { Card, CardContent, Typography, Grid, Stack } from "@mui/material";
+import { useGetUserStatsMutation } from "./dashboardApiSlice";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   // Replace these values with your actual data or state
@@ -8,6 +10,21 @@ const Dashboard = () => {
   const numberOfQuestionsCorrect = 80;
   const numberOfParticipantsTaken = 35;
   const numberOfParticipantsCreated = 50;
+
+  const [getStats, { data }] = useGetUserStatsMutation();
+
+  useEffect(() => {
+    const getStatistics = async () => {
+      try {
+        await getStats().unwrap();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getStatistics();
+  }, []);
+
+  console.log("stats", data);
 
   return (
     <>

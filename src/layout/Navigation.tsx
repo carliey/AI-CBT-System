@@ -97,11 +97,10 @@ const Navigation = () => {
           </Box>
 
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <NavLink to={page === "Overview" ? "/" : `${page}`}>
+            {pages.map((page, i) => (
+              <NavLink key={i} to={page === "Overview" ? "/" : `${page}`}>
                 {({ isActive }) => (
                   <Button
-                    key={page}
                     sx={{
                       mx: 2,
                       color: isActive ? "black" : "grey",

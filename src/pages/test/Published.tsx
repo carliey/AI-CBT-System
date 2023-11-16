@@ -1,6 +1,8 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Quiz, Test } from "../../types/test";
 import { useNavigate } from "react-router-dom";
+import { useUnpublishQuizMutation } from "./testApiSlice";
+import { toast } from "react-toastify";
 
 interface Props {
   quizzes: Quiz[];
@@ -8,9 +10,16 @@ interface Props {
 
 const Published = ({ quizzes }: Props) => {
   const navigate = useNavigate();
+  const [unpublish, { isLoading: isUnpublishing }] = useUnpublishQuizMutation();
 
-  const handleUnpublish = (e: any) => {
+  const handleUnpublish = async (e: any, id: number) => {
     e.stopPropagation();
+    try {
+      await unpublish(id).unwrap();
+    } catch (error) {
+      console.log(error);
+      toast.error("error unpublishing");
+    }
     console.log("handle unpublish");
   };
 
@@ -47,8 +56,11 @@ const Published = ({ quizzes }: Props) => {
             <Typography variant="subtitle1" sx={{ width: "220px" }}>
               Date: {test.date}
             </Typography>
-            <Button variant="contained" onClick={handleUnpublish}>
-              Unpublish
+            <Button
+              variant="contained"
+              onClick={(e) => handleUnpublish(e, test.id)}
+            >
+              {isUnpublishing ? "loading..." : "Unpublish"}
             </Button>
           </Stack>
         </Box>

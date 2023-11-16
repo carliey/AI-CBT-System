@@ -47,6 +47,12 @@ export const quizApiSlice = apiSliceWithTags.injectEndpoints({
       query: (quizId) => `/api/quizzes/${quizId}`,
     }),
 
+    // Query to get a quiz with its participant answers
+    getUserStats: builder.query<any, number>({
+      query: (quizId) => `/api/quizzes/${quizId}`,
+      providesTags: ["Quizzes"],
+    }),
+
     // Mutation to create a new quiz
     createQuiz: builder.mutation<any, Test>({
       query: (values) => ({

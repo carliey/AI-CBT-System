@@ -61,7 +61,7 @@ const Unpublished = ({ quizzes }: Props) => {
               variant="contained"
               onClick={(e) => handlePublish(e, test.id)}
             >
-              {isPublishing ? "loading..." : "Unpublish"}
+              {isPublishing ? "loading..." : "Publish"}
             </Button>
           </Stack>
         </Box>

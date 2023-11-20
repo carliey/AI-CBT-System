@@ -44,6 +44,7 @@ export interface Quiz {
   is_published: boolean;
   participants: Participant[];
   questions: Question[];
+  results: QuizResult[];
   testAdministratorId?: number;
   TestAdministrator?: TestAdministrator;
   title: string;
@@ -74,6 +75,15 @@ export interface QuizData {
     Quiz: Quiz;
   };
   message: string;
+}
+
+export interface QuizResult {
+  id: number;
+  participant: Participant;
+  quiz: Quiz;
+  correct_answers: number;
+  questions_attempted: number;
+  total_questions?: number;
 }
 
 interface TestAdministrator {

@@ -124,7 +124,7 @@ const ChangePasswordModal = ({ open, onClose }: Props) => {
                 fullWidth
                 type="submit"
               >
-                Submit
+                {isUpdating ? "loading..." : "Submit"}
               </Button>
             </Grid>
           </Grid>

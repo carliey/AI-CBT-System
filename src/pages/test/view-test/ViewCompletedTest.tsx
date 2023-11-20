@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Option, Question, Test } from "../../../types/test";
+import { Option, Question, Quiz } from "../../../types/test";
 import TabSwitcher from "../../../components/TabSwitcher";
 import { ArrowBack, Check } from "@mui/icons-material";
 import { optionTitle } from "../../../data/optionTitle";
@@ -22,10 +22,10 @@ import { optionTitle } from "../../../data/optionTitle";
 const ViewCompletedTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const test = location.state as Test;
+  const test = location.state as Quiz;
 
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Questions", "Participants", "Result"];
+  const tabs = ["Questions", "Participants", "Results"];
 
   return (
     <div>
@@ -73,7 +73,7 @@ const ViewCompletedTest = () => {
           <Grid item xs={6}>
             <Typography variant="subtitle1">
               <span className="label"> Duration: </span>
-              {test.duration}
+              {test.duration} minutes
             </Typography>
           </Grid>
         </Grid>
@@ -148,7 +148,8 @@ const ViewCompletedTest = () => {
           <React.Fragment>
             <Table>
               <TableHead>
-                <TableCell align="left">id</TableCell>
+                <TableCell align="left">S/N</TableCell>
+                <TableCell>Application number</TableCell>
                 <TableCell>name</TableCell>
                 <TableCell>email</TableCell>
                 <TableCell>Score</TableCell>
@@ -156,10 +157,13 @@ const ViewCompletedTest = () => {
               <TableBody>
                 {test.results?.map((result, resultIndex) => (
                   <TableRow key={resultIndex}>
-                    <TableCell>001</TableCell>
-                    <TableCell>muhammed ladan</TableCell>
-                    <TableCell>{result.email}</TableCell>
-                    <TableCell>{result.score}</TableCell>
+                    <TableCell>{resultIndex + 1}</TableCell>
+                    <TableCell>
+                      {result.participant.application_number}
+                    </TableCell>
+                    <TableCell>{result.participant.name}</TableCell>
+                    <TableCell>{result.participant.email}</TableCell>
+                    <TableCell>{result.correct_answers}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -5,7 +5,7 @@ import TabSwitcher from "../../components/TabSwitcher";
 import Completed from "./Completed";
 import Published from "./Published";
 import Unpublished from "./Unpublished";
-import { useGetQuizWithAnswersQuery, useGetQuizzesQuery } from "./testApiSlice";
+import { useGetQuizzesQuery } from "./testApiSlice";
 import { Quiz } from "../../types/test";
 
 const Tests = () => {
@@ -25,13 +25,15 @@ const Tests = () => {
 
   const published = useMemo(() => {
     return (
-      quizzes?.data?.filter((quiz: Quiz) => quiz.is_published === true) || []
+      quizzes?.data?.filter(
+        (quiz: Quiz) => quiz.is_published === true && quiz.results?.length === 0
+      ) || []
     );
   }, [quizzes]);
 
   const completed = useMemo(() => {
     return (
-      quizzes?.data?.filter((quiz: Quiz) => quiz.is_completed === true) || []
+      quizzes?.data?.filter((quiz: Quiz) => quiz.results?.length > 0) || []
     );
   }, [quizzes]);
 

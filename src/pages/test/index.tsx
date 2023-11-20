@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TabSwitcher from "../../components/TabSwitcher";
-import Completed from "./Completed";
 import Published from "./Published";
 import Unpublished from "./Unpublished";
 import { useGetQuizzesQuery } from "./testApiSlice";
@@ -11,7 +10,7 @@ import { Quiz } from "../../types/test";
 const Tests = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = React.useState(0);
-  const tabs = ["Completed", "Published", "Unpublished"];
+  const tabs = ["Published", "Unpublished"];
 
   const { data: quizzes } = useGetQuizzesQuery();
 
@@ -25,15 +24,7 @@ const Tests = () => {
 
   const published = useMemo(() => {
     return (
-      quizzes?.data?.filter(
-        (quiz: Quiz) => quiz.is_published === true && quiz.results?.length === 0
-      ) || []
-    );
-  }, [quizzes]);
-
-  const completed = useMemo(() => {
-    return (
-      quizzes?.data?.filter((quiz: Quiz) => quiz.results?.length > 0) || []
+      quizzes?.data?.filter((quiz: Quiz) => quiz.is_published === true) || []
     );
   }, [quizzes]);
 
@@ -50,9 +41,8 @@ const Tests = () => {
         setActiveTab={setActiveTab}
         tabs={tabs}
       />
-      {activeTab == 0 && <Completed quizzes={completed} />}
-      {activeTab == 1 && <Published quizzes={published} />}
-      {activeTab == 2 && <Unpublished quizzes={unpublished} />}
+      {activeTab == 0 && <Published quizzes={published} />}
+      {activeTab == 1 && <Unpublished quizzes={unpublished} />}
     </Paper>
   );
 };

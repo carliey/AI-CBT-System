@@ -3,13 +3,14 @@ import { useState } from "react";
 import QuizPage from "./QuizPage";
 import { useGetQuizQuery } from "./participantApiSlice";
 import { useParams } from "react-router-dom";
+import QuizTaken from "./QuizTaken";
 
 const Quiz = () => {
   const { quiz_id, participant_id } = useParams();
   const participant = parseInt(participant_id || "");
   const quiz = parseInt(quiz_id || "");
 
-  const { data: quizData } = useGetQuizQuery({
+  const { data: quizData, error: getQuizError } = useGetQuizQuery({
     participant_id: participant,
     quiz_id: quiz,
   });
@@ -23,7 +24,11 @@ const Quiz = () => {
     setHasStarted(true);
   };
 
-  if (!quizData) {
+  if (getQuizError && "status" in getQuizError && getQuizError.status === 405) {
+    return <QuizTaken />;
+  }
+
+  if (!quizData?.data) {
     return <h1>Something went wrong, unable to fetch quiz</h1>;
   }
 

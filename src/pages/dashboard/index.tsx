@@ -4,12 +4,6 @@ import { useEffect } from "react";
 
 const Dashboard = () => {
   // Replace these values with your actual data or state
-  const numberOfTestsCreated = 5;
-  const numberOfTestsTaken = 3;
-  const numberOfQuestionsAttempted = 100;
-  const numberOfQuestionsCorrect = 80;
-  const numberOfParticipantsTaken = 35;
-  const numberOfParticipantsCreated = 50;
 
   const [getStats, { data }] = useGetUserStatsMutation();
 
@@ -24,8 +18,6 @@ const Dashboard = () => {
     getStatistics();
   }, []);
 
-  console.log("stats", data);
-
   return (
     <>
       <Grid container spacing={2}>
@@ -37,7 +29,7 @@ const Dashboard = () => {
                   Tests Created
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {numberOfTestsCreated}
+                  {data?.totalTestsCreated}
                 </Typography>
               </CardContent>
             </Card>
@@ -48,7 +40,7 @@ const Dashboard = () => {
                   Tests Taken
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {numberOfTestsTaken}
+                  {data?.totalTestsTaken}
                 </Typography>
               </CardContent>
             </Card>
@@ -63,7 +55,7 @@ const Dashboard = () => {
                   Questions Attempted
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {numberOfQuestionsAttempted}
+                  {data?.totalParticipantsTakenTests}
                 </Typography>
               </CardContent>
             </Card>
@@ -74,7 +66,7 @@ const Dashboard = () => {
                   Questions Correct
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {numberOfQuestionsCorrect}
+                  {data?.totalQuestionsAnsweredCorrectly}
                 </Typography>
               </CardContent>
             </Card>
@@ -89,7 +81,7 @@ const Dashboard = () => {
                   Participants Created
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {numberOfParticipantsCreated}
+                  -{" "}
                 </Typography>
               </CardContent>
             </Card>
@@ -100,7 +92,7 @@ const Dashboard = () => {
                   Participants Taken
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {numberOfParticipantsTaken}
+                  -{" "}
                 </Typography>
               </CardContent>
             </Card>

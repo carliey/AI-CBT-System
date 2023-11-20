@@ -19,7 +19,6 @@ export const participantApiSlice = apiSliceWithTags.injectEndpoints({
       providesTags: ["Quiz"],
     }),
 
-    // Mutation to create a new quiz
     submitAnswer: builder.mutation<
       any,
       {
@@ -36,7 +35,26 @@ export const participantApiSlice = apiSliceWithTags.injectEndpoints({
       }),
       invalidatesTags: ["Quiz"],
     }),
+
+    createParticipantResult: builder.mutation<
+      any,
+      {
+        quizId: number;
+        participantId: number;
+      }
+    >({
+      query: (values) => ({
+        url: "/quiz/result",
+        method: "POST",
+        body: { ...values },
+      }),
+      invalidatesTags: ["Quiz"],
+    }),
   }),
 });
 
-export const { useGetQuizQuery, useSubmitAnswerMutation } = participantApiSlice;
+export const {
+  useGetQuizQuery,
+  useSubmitAnswerMutation,
+  useCreateParticipantResultMutation,
+} = participantApiSlice;

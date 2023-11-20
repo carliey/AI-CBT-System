@@ -11,7 +11,10 @@ import {
 import { Option, Quiz } from "../../types/test";
 import Countdown from "react-countdown";
 import { useNavigate } from "react-router-dom";
-import { useSubmitAnswerMutation } from "./participantApiSlice";
+import {
+  useCreateParticipantResultMutation,
+  useSubmitAnswerMutation,
+} from "./participantApiSlice";
 import { toast } from "react-toastify";
 
 interface QuizPageProps {
@@ -22,6 +25,8 @@ interface QuizPageProps {
 function QuizPage({ test, participant_id }: QuizPageProps) {
   const navigate = useNavigate();
   const [submitAnswer] = useSubmitAnswerMutation();
+  const [createResult, { isLoading: isCreatingResult }] =
+    useCreateParticipantResultMutation();
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const [timeLeft, setTimeLeft] = useState(() => {
@@ -86,13 +91,17 @@ function QuizPage({ test, participant_id }: QuizPageProps) {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("Responses:", responses);
-    localStorage.clear();
-    navigate("/quiz-complete");
+  const handleSubmit = async () => {
+    //implement the submit function
+    const res = await createResult({
+      participantId: participant_id,
+      quizId: test.id,
+    }).unwrap();
 
-    //send the responses to the server to calculate the user score.
-    //navigate the user to the result screen
+    localStorage.clear();
+    navigate("/quiz-complete", {
+      state: { ...res.data, total_questions: test.questions.length },
+    });
   };
 
   const isLastQuestion = currentQuestion === test.questions.length - 1;
@@ -202,7 +211,7 @@ function QuizPage({ test, participant_id }: QuizPageProps) {
 
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
         <Button variant="contained" onClick={handleSubmit}>
-          Submit Test
+          {isCreatingResult ? "loading..." : "Submit Test"}{" "}
         </Button>
       </Box>
     </Box>

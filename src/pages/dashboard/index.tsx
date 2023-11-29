@@ -55,7 +55,7 @@ const Dashboard = () => {
                   Questions Attempted
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {data?.totalParticipantsTakenTests}
+                  {/* {data?.totalParticipantsTakenTests} */}-
                 </Typography>
               </CardContent>
             </Card>
@@ -66,7 +66,7 @@ const Dashboard = () => {
                   Questions Correct
                 </Typography>
                 <Typography variant="h6" color="textSecondary">
-                  {data?.totalQuestionsAnsweredCorrectly}
+                  {/* {data?.totalQuestionsAnsweredCorrectly} */}-
                 </Typography>
               </CardContent>
             </Card>

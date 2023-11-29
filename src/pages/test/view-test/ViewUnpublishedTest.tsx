@@ -107,6 +107,7 @@ const ViewUnpublishedTest = () => {
               <Button variant="outlined">PDF</Button>
               <Button variant="outlined">XLS</Button>
             </Stack> */}
+            <Button variant="outlined">Print</Button>
           </React.Fragment>
         )}
         {activeTab == 1 && (

@@ -169,8 +169,9 @@ const ViewPublishedTest = () => {
               </TableBody>
             </Table>
             <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
-              <Button variant="outlined">PDF</Button>
-              <Button variant="outlined">XLS</Button>
+              {/* <Button variant="outlined">PDF</Button>
+              <Button variant="outlined">XLS</Button> */}
+              <Button variant="outlined">Print</Button>
             </Stack>
           </React.Fragment>
         )}

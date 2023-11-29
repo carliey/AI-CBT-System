@@ -38,7 +38,10 @@ const GenerateQuestionsModal = ({ open, handleClose, setQuestions }: Props) => {
     useGenerateQuestionsMutation();
 
   const handleClickGenerate = async () => {
-    if (selectedDocument && numberOfQuestions && difficultyLevel) {
+    try {
+      if (!selectedDocument || !numberOfQuestions || !difficultyLevel) {
+        return toast.error("Please all fields");
+      }
       const body = {
         text: extractedText,
         number_of_questions: numberOfQuestions,
@@ -49,8 +52,9 @@ const GenerateQuestionsModal = ({ open, handleClose, setQuestions }: Props) => {
       setQuestions(result.data);
       handleClose();
       console.log(result);
-    } else {
-      toast.error("Please all fields");
+    } catch (error) {
+      console.log(error);
+      toast.error("something went wrong, please try again");
     }
   };
 

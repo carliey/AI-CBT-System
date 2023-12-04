@@ -12,20 +12,30 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Option, Question, Quiz } from "../../../types/test";
 import TabSwitcher from "../../../components/TabSwitcher";
 import { ArrowBack, Check } from "@mui/icons-material";
 import { optionTitle } from "../../../data/optionTitle";
+import { useReactToPrint } from "react-to-print";
+import { useAppSelector } from "../../../app/hooks";
+import { selectCurrentUser } from "../../auth/authSlice";
 
 const ViewPublishedTest = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useAppSelector(selectCurrentUser);
+  const componentToPrintRef = useRef(null);
+
   const test = location.state as Quiz;
 
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Questions", "Participants", "Results"];
+
+  const handlePrint = useReactToPrint({
+    content: () => componentToPrintRef.current || null,
+  });
 
   return (
     <div>
@@ -171,11 +181,47 @@ const ViewPublishedTest = () => {
             <Stack justifyContent={"center"} direction={"row"} my={2} gap={2}>
               {/* <Button variant="outlined">PDF</Button>
               <Button variant="outlined">XLS</Button> */}
-              <Button variant="outlined">Print</Button>
+              <Button variant="outlined" onClick={handlePrint}>
+                Print
+              </Button>
             </Stack>
           </React.Fragment>
         )}
       </Paper>
+      <div style={{ display: "none" }}>
+        <Box
+          ref={componentToPrintRef}
+          sx={{
+            p: 2,
+            textAlign: "center",
+          }}
+        >
+          <h2 style={{ textTransform: "uppercase" }}>{user.name}</h2>
+          <h3 style={{ textTransform: "uppercase" }}>
+            {test.title} test result
+          </h3>
+          <Table>
+            <TableHead>
+              <TableCell align="left">S/N</TableCell>
+              <TableCell>Application number</TableCell>
+              <TableCell>name</TableCell>
+              <TableCell>email</TableCell>
+              <TableCell>Score</TableCell>
+            </TableHead>
+            <TableBody>
+              {test.results?.map((result, resultIndex) => (
+                <TableRow key={resultIndex}>
+                  <TableCell>{resultIndex + 1}</TableCell>
+                  <TableCell>{result.participant.application_number}</TableCell>
+                  <TableCell>{result.participant.name}</TableCell>
+                  <TableCell>{result.participant.email}</TableCell>
+                  <TableCell>{result.correct_answers}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </div>
     </div>
   );
 };

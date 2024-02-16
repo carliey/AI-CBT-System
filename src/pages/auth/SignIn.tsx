@@ -8,6 +8,7 @@ import { useLoginMutation } from "./authApiSlice";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../app/hooks";
 import { login } from "./authSlice";
+import { GoogleLogin } from "@react-oauth/google";
 
 const validationSchema = yup.object({
   email: yup
@@ -87,6 +88,34 @@ function SignIn() {
             </Button>
           </Grid>
         </Grid>
+        <div
+          id="g_id_onload"
+          data-client_id="991884877078-idrnc66t0f7vn0pcdoqj4b7tbtc6hl07.apps.googleusercontent.com"
+          data-context="signup"
+          data-ux_mode="popup"
+          data-login_uri="http://localhost:5173"
+          data-auto_select="true"
+          data-itp_support="true"
+        ></div>
+        <div
+          className="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="signup_with"
+          data-size="medium"
+          data-locale="en-GB"
+          data-logo_alignment="left"
+        ></div>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            console.log(credentialResponse);
+          }}
+          onError={() => {
+            console.log("Login Failed");
+          }}
+        />
+        ;
       </Box>
     </Box>
   );

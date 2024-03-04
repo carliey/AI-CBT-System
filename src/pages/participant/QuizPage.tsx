@@ -2,6 +2,11 @@ import { useState, useEffect } from "react";
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
   Paper,
   Radio,
@@ -28,6 +33,7 @@ function QuizPage({ test, participant_id }: QuizPageProps) {
   const [createResult, { isLoading: isCreatingResult }] =
     useCreateParticipantResultMutation();
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [openWarning, setOpenWarning] = useState(false);
 
   const [timeLeft, setTimeLeft] = useState(() => {
     const storedCountdown = localStorage.getItem(`countdown_${test.id}`);
@@ -52,6 +58,7 @@ function QuizPage({ test, participant_id }: QuizPageProps) {
       optionId: optionId,
     };
     try {
+      setOpenWarning(false);
       await submitAnswer(body).unwrap();
 
       const existingResponse = responses.find(
@@ -210,9 +217,31 @@ function QuizPage({ test, participant_id }: QuizPageProps) {
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained" onClick={() => setOpenWarning(true)}>
           {isCreatingResult ? "loading..." : "Submit Test"}{" "}
         </Button>
+        <Dialog
+          open={openWarning}
+          onClose={() => setOpenWarning(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">Warning! </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to submit this quiz, action cannot be
+              reversed!!!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenWarning(false)} variant="contained">
+              No
+            </Button>
+            <Button onClick={handleSubmit} autoFocus variant="contained">
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Box>
   );

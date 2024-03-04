@@ -88,7 +88,7 @@ function SignIn() {
             </Button>
           </Grid>
         </Grid>
-        <div
+        {/* <div
           id="g_id_onload"
           data-client_id="991884877078-idrnc66t0f7vn0pcdoqj4b7tbtc6hl07.apps.googleusercontent.com"
           data-context="signup"
@@ -115,7 +115,7 @@ function SignIn() {
             console.log("Login Failed");
           }}
         />
-        ;
+        ; */}
       </Box>
     </Box>
   );
